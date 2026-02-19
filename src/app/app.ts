@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AtomicLink } from './shared/components/atomic-link/atomic-link';
 
@@ -9,6 +9,4 @@ import { AtomicLink } from './shared/components/atomic-link/atomic-link';
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
-  protected readonly title = signal('vsi-f2e-client-template');
-}
+export class App {}

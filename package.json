@@ -8,6 +8,7 @@
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:gate": "ng test --watch=false --coverage",
     "lint": "ng lint",
     "check": "prettier --check .",
     "format": "prettier --write .",
