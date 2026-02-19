@@ -1,0 +1,13 @@
+@if (!isExternal()) {
+  <a [routerLink]="to()" [queryParams]="queryParams()" [fragment]="fragment()">
+    <ng-container *ngTemplateOutlet="linkLabelTmpl"></ng-container>
+  </a>
+} @else {
+  <a [href]="externalHref()" rel="noopener noreferrer" [target]="target()">
+    <ng-container *ngTemplateOutlet="linkLabelTmpl"></ng-container>
+  </a>
+}
+
+<ng-template #linkLabelTmpl>
+  {{ linkLabel() }}
+</ng-template>
