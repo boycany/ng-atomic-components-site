@@ -34,8 +34,10 @@ describe('AtomicLink logic helpers', () => {
     expect(queryString).not.toContain('undefined');
   });
 
-  it('appendQueryAndFragment should append fragment without question mark when query is empty', () => {
+  it('appendQueryAndFragment should append fragment without question mark when query is empty or nullish', () => {
     expect(appendQueryAndFragment('/guide', {}, 'install')).toBe('/guide#install');
+    expect(appendQueryAndFragment('/guide', null, 'install')).toBe('/guide#install');
+    expect(appendQueryAndFragment('/guide', undefined, 'install')).toBe('/guide#install');
   });
 
   it('buildLinkLabel should prefer text over to and append query and fragment', () => {
