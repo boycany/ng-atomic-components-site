@@ -1,5 +1,5 @@
 {
-  "name": "vsi-f2e-client-template",
+  "name": "ng-atomic-components-site",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",

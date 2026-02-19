@@ -9,7 +9,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "vsi-f2e-client-template": {
+    "ng-atomic-components-site": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "vsi-f2e-client-template:build:production"
+              "buildTarget": "ng-atomic-components-site:build:production"
             },
             "development": {
-              "buildTarget": "vsi-f2e-client-template:build:development"
+              "buildTarget": "ng-atomic-components-site:build:development"
             }
           },
           "defaultConfiguration": "development"
