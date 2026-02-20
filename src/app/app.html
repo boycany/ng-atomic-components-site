@@ -1,4 +1,83 @@
-<app-atomic-link [to]="['home']" [text]="'Home'"></app-atomic-link> |
-<app-atomic-link [to]="['feature']" [text]="'Feature'"></app-atomic-link>
-
+<div style="margin: 16px">
+  <h1>Links</h1>
+  <div style="display: flex; gap: 16px">
+    <app-atomic-link [to]="['home']" [text]="'Home'"></app-atomic-link> |
+    <app-atomic-link [to]="['feature']" [text]="'Feature'"></app-atomic-link>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div style="margin: 16px">
+  <h1>Buttons</h1>
+  <div>
+    <p>Primary</p>
+    <div style="display: flex; gap: 16px">
+      <app-atomic-button>
+        <span label>Contained Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="outlined">
+        <span label>Outlined Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="text">
+        <span label>Text Button</span>
+      </app-atomic-button>
+    </div>
+  </div>
+  <div>
+    <p>Success</p>
+    <div style="display: flex; gap: 16px">
+      <app-atomic-button color="success">
+        <span label>Contained Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="outlined" color="success">
+        <span label>Outlined Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="text" color="success">
+        <span label>Text Button</span>
+      </app-atomic-button>
+    </div>
+  </div>
+  <div>
+    <p>Warn</p>
+    <div style="display: flex; gap: 16px">
+      <app-atomic-button color="warn">
+        <span label>Contained Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="outlined" color="warn">
+        <span label>Outlined Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="text" color="warn">
+        <span label>Text Button</span>
+      </app-atomic-button>
+    </div>
+  </div>
+  <div>
+    <p>Danger</p>
+    <div style="display: flex; gap: 16px">
+      <app-atomic-button color="danger">
+        <span label>Contained Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="outlined" color="danger">
+        <span label>Outlined Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="text" color="danger">
+        <span label>Text Button</span>
+      </app-atomic-button>
+    </div>
+  </div>
+  <div>
+    <p>Secondary</p>
+    <div style="display: flex; gap: 16px">
+      <app-atomic-button color="secondary">
+        <span label>Contained Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="outlined" color="secondary">
+        <span label>Outlined Button</span>
+      </app-atomic-button>
+      <app-atomic-button variant="text" color="secondary">
+        <span label>Text Button</span>
+      </app-atomic-button>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
 <router-outlet />
