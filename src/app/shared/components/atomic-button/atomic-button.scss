@@ -16,6 +16,16 @@ $name: '.atomic-button';
   border-width: 1px;
   border-color: transparent;
   outline: none;
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
   line-height: 1.25rem;
   transition-property: color, background-color, border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

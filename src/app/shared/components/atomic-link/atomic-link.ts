@@ -27,6 +27,9 @@ export class AtomicLink {
 
   // text
   text = input<string | undefined>(undefined);
+  ariaLabel = input<string | undefined>(undefined);
+  ariaDisabled = input<boolean>(false);
+  tabIndex = input<number | undefined>(undefined);
   linkLabel = computed(() =>
     buildLinkLabel({
       text: this.text(),
@@ -50,4 +53,13 @@ export class AtomicLink {
       hasProtocolFn: (value) => hasProtocol(value, { acceptRelative: false }),
     })
   );
+
+  protected onAnchorClick(event: MouseEvent): void {
+    if (!this.ariaDisabled()) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }

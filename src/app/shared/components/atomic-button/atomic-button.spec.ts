@@ -116,6 +116,16 @@ describe('AtomicButton', () => {
     expect(button.type).toBe('submit');
   });
 
+  it('binds aria-label to native button when ariaLabel is provided', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('ariaLabel', 'Save changes');
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    expect(button.getAttribute('aria-label')).toBe('Save changes');
+  });
+
   it('supports reset button type', async () => {
     const { fixture } = await setup();
 
@@ -200,6 +210,21 @@ describe('AtomicButton', () => {
 
     const anchor = fixture.nativeElement.querySelector('app-atomic-link a') as HTMLAnchorElement;
     expect(anchor.textContent?.trim()).toBe('https://angular.dev');
+  });
+
+  it('uses ariaLabel on link mode and marks link as disabled when disabled is true', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://angular.dev');
+    fixture.componentRef.setInput('ariaLabel', 'Open Angular website');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+
+    const anchor = fixture.nativeElement.querySelector('app-atomic-link a') as HTMLAnchorElement;
+    expect(anchor.getAttribute('aria-label')).toBe('Open Angular website');
+    expect(anchor.getAttribute('aria-disabled')).toBe('true');
+    expect(anchor.getAttribute('tabindex')).toBe('-1');
+    expect(anchor.getAttribute('href')).toBeNull();
   });
 
   it('renders only label when only label slot is projected', async () => {
