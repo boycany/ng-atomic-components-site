@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { NoPreloading, provideRouter, Router, withPreloading } from '@angular/router';
 
 import { AtomicLink } from './atomic-link';
 
 const setup = async () => {
   await TestBed.configureTestingModule({
     imports: [AtomicLink],
-    providers: [provideRouter([])],
+    providers: [provideRouter([], withPreloading(NoPreloading))],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(AtomicLink);
