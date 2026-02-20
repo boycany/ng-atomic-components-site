@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { Params, Router, RouterLink } from '@angular/router';
 import { NgTemplateOutlet } from '@angular/common';
 import { buildLinkLabel, isExternalLink, LinkTo, resolveToValue } from './atomic-link.utils';
+import { HoverRoutePreloadDirective } from '../../directives/hover-route-preload/hover-route-preload';
 
 /** The AtomicLink component is used to create links that can be either internal or external. */
 @Component({
   selector: 'app-atomic-link',
-  imports: [RouterLink, NgTemplateOutlet],
+  imports: [RouterLink, NgTemplateOutlet, HoverRoutePreloadDirective],
   templateUrl: './atomic-link.html',
   styleUrl: './atomic-link.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

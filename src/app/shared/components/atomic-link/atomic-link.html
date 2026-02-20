@@ -1,5 +1,12 @@
 @if (!isExternal()) {
-  <a [routerLink]="to()" [queryParams]="queryParams()" [fragment]="fragment()">
+  <a
+    [routerLink]="to()"
+    [queryParams]="queryParams()"
+    [fragment]="fragment()"
+    [appHoverRoutePreload]="to()"
+    [appHoverRoutePreloadQueryParams]="queryParams()"
+    [appHoverRoutePreloadFragment]="fragment()"
+  >
     <ng-container *ngTemplateOutlet="linkLabelTmpl"></ng-container>
   </a>
 } @else {
