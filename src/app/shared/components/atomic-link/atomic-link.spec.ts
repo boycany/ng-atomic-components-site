@@ -230,6 +230,69 @@ describe('AtomicLink', () => {
     expect(link.textContent?.trim()).toBe('Read docs');
   });
 
+  it('binds aria-label and tabindex on internal link', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', '/docs');
+    fixture.componentRef.setInput('ariaLabel', 'Read documentation');
+    fixture.componentRef.setInput('tabIndex', 2);
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    expect(link.getAttribute('aria-label')).toBe('Read documentation');
+    expect(link.getAttribute('tabindex')).toBe('2');
+    expect(link.getAttribute('aria-disabled')).toBeNull();
+  });
+
+  it('marks internal link as aria-disabled and prevents default on click', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', '/internal');
+    fixture.componentRef.setInput('ariaDisabled', true);
+    fixture.componentRef.setInput('tabIndex', -1);
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const defaultPreventedBeforeDispatch = clickEvent.defaultPrevented;
+    link.dispatchEvent(clickEvent);
+
+    expect(defaultPreventedBeforeDispatch).toBe(false);
+    expect(clickEvent.defaultPrevented).toBe(true);
+    expect(link.getAttribute('aria-disabled')).toBe('true');
+    expect(link.getAttribute('tabindex')).toBe('-1');
+    expect(link.getAttribute('href')).toBeNull();
+  });
+
+  it('marks external link as aria-disabled and removes href when disabled', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://angular.dev');
+    fixture.componentRef.setInput('ariaDisabled', true);
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    expect(link.getAttribute('aria-disabled')).toBe('true');
+    expect(link.getAttribute('href')).toBeNull();
+  });
+
+  it('keeps default click behavior for enabled external link', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://angular.dev');
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const defaultPreventedBeforeDispatch = clickEvent.defaultPrevented;
+    link.dispatchEvent(clickEvent);
+
+    expect(defaultPreventedBeforeDispatch).toBe(false);
+    expect(clickEvent.defaultPrevented).toBe(false);
+    expect(link.getAttribute('href')).toBe('https://angular.dev');
+    expect(link.getAttribute('aria-disabled')).toBeNull();
+  });
+
   it('treats non-self target as external', async () => {
     const { fixture } = await setup();
 

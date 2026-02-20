@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { AtomicButton } from './atomic-button';
 
 const setup = async () => {
   await TestBed.configureTestingModule({
     imports: [AtomicButton],
+    providers: [provideRouter([])],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(AtomicButton);
@@ -114,6 +116,16 @@ describe('AtomicButton', () => {
     expect(button.type).toBe('submit');
   });
 
+  it('binds aria-label to native button when ariaLabel is provided', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('ariaLabel', 'Save changes');
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    expect(button.getAttribute('aria-label')).toBe('Save changes');
+  });
+
   it('supports reset button type', async () => {
     const { fixture } = await setup();
 
@@ -162,6 +174,57 @@ describe('AtomicButton', () => {
 
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     expect(button.textContent?.trim()).toBe('');
+  });
+
+  it('renders atomic link instead of native button when to input is provided', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://www.google.com');
+    fixture.componentRef.setInput('linkLabel', 'Google');
+    fixture.componentRef.setInput('variant', 'text');
+    fixture.componentRef.setInput('color', 'secondary');
+    fixture.componentRef.setInput('shape', 'square');
+    fixture.componentRef.setInput('size', 'small');
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button');
+    const atomicLink = fixture.nativeElement.querySelector('app-atomic-link') as HTMLElement;
+    const anchor = fixture.nativeElement.querySelector('app-atomic-link a') as HTMLAnchorElement;
+
+    expect(button).toBeNull();
+    expect(atomicLink).toBeTruthy();
+    expect(atomicLink.classList.contains('atomic-button')).toBe(true);
+    expect(atomicLink.classList.contains('atomic-button--text')).toBe(true);
+    expect(atomicLink.classList.contains('atomic-button--secondary')).toBe(true);
+    expect(atomicLink.classList.contains('atomic-button--square')).toBe(true);
+    expect(atomicLink.classList.contains('atomic-button--small')).toBe(true);
+    expect(anchor.getAttribute('href')).toBe('https://www.google.com');
+    expect(anchor.textContent?.trim()).toBe('Google');
+  });
+
+  it('uses to value as link label when linkLabel is not provided', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://angular.dev');
+    fixture.detectChanges();
+
+    const anchor = fixture.nativeElement.querySelector('app-atomic-link a') as HTMLAnchorElement;
+    expect(anchor.textContent?.trim()).toBe('https://angular.dev');
+  });
+
+  it('uses ariaLabel on link mode and marks link as disabled when disabled is true', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('to', 'https://angular.dev');
+    fixture.componentRef.setInput('ariaLabel', 'Open Angular website');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+
+    const anchor = fixture.nativeElement.querySelector('app-atomic-link a') as HTMLAnchorElement;
+    expect(anchor.getAttribute('aria-label')).toBe('Open Angular website');
+    expect(anchor.getAttribute('aria-disabled')).toBe('true');
+    expect(anchor.getAttribute('tabindex')).toBe('-1');
+    expect(anchor.getAttribute('href')).toBeNull();
   });
 
   it('renders only label when only label slot is projected', async () => {

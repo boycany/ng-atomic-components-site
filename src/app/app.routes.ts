@@ -15,11 +15,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
-    path: 'feature',
+    path: 'buttons',
     data: {
       preloadOnHover: true,
-      preloadKey: 'feature',
+      preloadKey: 'buttons',
     },
-    loadComponent: () => import('./pages/feature/feature').then((m) => m.Feature),
+    loadComponent: () =>
+      import('./pages/buttons-showcase/buttons-showcase').then((m) => m.ButtonsShowcase),
   },
 ];

@@ -1,16 +1,28 @@
 @if (!isExternal()) {
   <a
-    [routerLink]="to()"
+    [routerLink]="ariaDisabled() ? null : to()"
     [queryParams]="queryParams()"
     [fragment]="fragment()"
     [appHoverRoutePreload]="to()"
     [appHoverRoutePreloadQueryParams]="queryParams()"
     [appHoverRoutePreloadFragment]="fragment()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-disabled]="ariaDisabled() ? 'true' : null"
+    [attr.tabindex]="tabIndex()"
+    (click)="onAnchorClick($event)"
   >
     <ng-container *ngTemplateOutlet="linkLabelTmpl"></ng-container>
   </a>
 } @else {
-  <a [href]="externalHref()" rel="noopener noreferrer" [target]="target()">
+  <a
+    [attr.href]="ariaDisabled() ? null : externalHref()"
+    rel="noopener noreferrer"
+    [target]="target()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-disabled]="ariaDisabled() ? 'true' : null"
+    [attr.tabindex]="tabIndex()"
+    (click)="onAnchorClick($event)"
+  >
     <ng-container *ngTemplateOutlet="linkLabelTmpl"></ng-container>
   </a>
 }

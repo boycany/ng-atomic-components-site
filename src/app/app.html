@@ -1,47 +1,25 @@
-<div class="section">
-  <h1>Links</h1>
-  <div class="row">
+<header class="section">
+  <h1>Atomic UI Lab for Angular v21</h1>
+  <nav class="row">
     @for (link of links; track link.text) {
       <app-atomic-link [to]="link.to" [text]="link.text"></app-atomic-link>
       @if (!$last) {
         <span>|</span>
       }
     }
-  </div>
-</div>
+  </nav>
+</header>
 <mat-divider></mat-divider>
-<div class="section">
-  <h1>Buttons</h1>
-  @for (group of buttonGroups; track group.label) {
-    <div>
-      <p>{{ group.label }}</p>
-      <div class="row">
-        @for (item of variantItems; track item.variant) {
-          <app-atomic-button [variant]="item.variant" [color]="group.color">
-            <span label>{{ item.label }}</span>
-          </app-atomic-button>
-        }
-      </div>
-    </div>
-  }
-  <div>
-    <p>Button with prepend and append icon</p>
-    <div class="row">
-      <app-atomic-button>
-        <span prepend><mat-icon>arrow_back</mat-icon></span>
-        <span label>Back</span>
-      </app-atomic-button>
-      <app-atomic-button>
-        <span label>Next</span>
-        <span append><mat-icon>arrow_forward</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button color="success" variant="outlined">
-        <span prepend><mat-icon>check_circle</mat-icon></span>
-        <span label>Success</span>
-        <span append><mat-icon>arrow_drop_down</mat-icon></span>
-      </app-atomic-button>
-    </div>
-  </div>
-</div>
+<section>
+  <router-outlet />
+</section>
 <mat-divider></mat-divider>
-<router-outlet />
+<footer class="section">
+  <p>
+    To see the sourcecode with full unit tests and e2e test, visit the
+    <app-atomic-link
+      [to]="'https://github.com/boycany/ng-atomic-components-site'"
+      [text]="'GitHub Repository'"
+    ></app-atomic-link>
+  </p>
+</footer>

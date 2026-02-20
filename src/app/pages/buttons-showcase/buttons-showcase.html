@@ -1,0 +1,69 @@
+<div class="section">
+  <h1>Buttons</h1>
+  @for (group of buttonGroups; track group.label) {
+    <div>
+      <p>{{ group.label }}</p>
+      <div class="row">
+        @for (item of variantItems; track item.variant) {
+          <app-atomic-button [variant]="item.variant" [color]="group.color">
+            <span label>{{ item.label }}</span>
+          </app-atomic-button>
+        }
+      </div>
+    </div>
+  }
+  <div>
+    <p>Button with prepend and append icon</p>
+    <div class="row">
+      <app-atomic-button>
+        <span prepend><mat-icon>arrow_back</mat-icon></span>
+        <span label>Back</span>
+      </app-atomic-button>
+      <app-atomic-button>
+        <span label>Next</span>
+        <span append><mat-icon>arrow_forward</mat-icon></span>
+      </app-atomic-button>
+      <app-atomic-button color="success" variant="outlined">
+        <span prepend><mat-icon>check_circle</mat-icon></span>
+        <span label>Success</span>
+        <span append><mat-icon>arrow_drop_down</mat-icon></span>
+      </app-atomic-button>
+    </div>
+  </div>
+  <div>
+    <p>Disabled Button</p>
+    <div class="row">
+      @for (item of variantItems; track item.variant) {
+        <app-atomic-button [variant]="item.variant" [disabled]="true">
+          <span label>{{ item.label }}</span>
+        </app-atomic-button>
+      }
+    </div>
+  </div>
+  <div>
+    <p>Circle Button</p>
+    <div class="row">
+      @for (item of variantItems; track item.variant) {
+        @for (group of buttonGroups; track group.label) {
+          <app-atomic-button shape="circle" [color]="group.color" [variant]="item.variant">
+            <span append><mat-icon>home</mat-icon></span>
+          </app-atomic-button>
+        }
+      }
+    </div>
+  </div>
+  <div>
+    <p>Link Button</p>
+    <div class="row">
+      @for (group of buttonGroups; track group.label) {
+        <app-atomic-button
+          to="https://www.google.com"
+          variant="text"
+          [color]="group.color"
+          linkLabel="Google"
+        >
+        </app-atomic-button>
+      }
+    </div>
+  </div>
+</div>

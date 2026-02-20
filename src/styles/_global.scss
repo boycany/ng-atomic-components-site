@@ -1,0 +1,23 @@
+.section {
+  padding: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+mat-icon.mat-icon {
+  width: auto;
+  height: auto;
+}
+
+button.atomic-button {
+  span[prepend],
+  span[append] {
+    line-height: 0.6;
+    mat-icon {
+      font-size: 0.875rem;
+    }
+  }
+}
