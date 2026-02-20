@@ -1,8 +1,10 @@
-.section {
-  margin: 16px;
-}
+@use 'sass:map';
+@use 'vars' as vars;
 
-.row {
-  display: flex;
-  gap: 16px;
+footer {
+  p {
+    margin: 0;
+    text-align: end;
+    color: map.get(vars.$color-map, 'secondary');
+  }
 }

@@ -5,6 +5,7 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @use 'vars';
+@use 'global';
 
 html {
   height: 100%;
@@ -38,18 +39,3 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
-
-mat-icon.mat-icon {
-  width: auto;
-  height: auto;
-}
-
-button.atomic-button {
-  span[prepend],
-  span[append] {
-    line-height: 0.6;
-    mat-icon {
-      font-size: 0.875rem;
-    }
-  }
-}

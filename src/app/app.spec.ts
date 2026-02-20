@@ -37,10 +37,10 @@ describe('App', () => {
     expect(linkComponents.length).toBe(2);
     expect(separators.length).toBe(1);
     expect(nativeElement.textContent).toContain('Home');
-    expect(nativeElement.textContent).toContain('Feature');
+    expect(nativeElement.textContent).toContain('Buttons');
   });
 
-  it('renders button groups and expected number of atomic buttons', async () => {
+  it('does not render atomic buttons in app shell', async () => {
     const { fixture } = await setup();
 
     fixture.detectChanges();
@@ -50,21 +50,16 @@ describe('App', () => {
     const nativeElement = fixture.nativeElement as HTMLElement;
     const buttonComponents = nativeElement.querySelectorAll('app-atomic-button');
 
-    const generatedButtons = 5 * 3;
-    const iconButtons = 3;
-
-    expect(buttonComponents.length).toBe(generatedButtons + iconButtons);
-    expect(nativeElement.textContent).toContain('Buttons');
-    expect(nativeElement.textContent).toContain('Button with prepend and append icon');
+    expect(buttonComponents.length).toBe(0);
   });
 
-  it('renders two dividers and router outlet', async () => {
+  it('renders one divider and router outlet', async () => {
     const { fixture } = await setup();
 
     fixture.detectChanges();
 
     const nativeElement = fixture.nativeElement as HTMLElement;
-    expect(nativeElement.querySelectorAll('mat-divider').length).toBe(2);
+    expect(nativeElement.querySelectorAll('mat-divider').length).toBe(1);
     expect(nativeElement.querySelector('router-outlet')).toBeTruthy();
   });
 });
