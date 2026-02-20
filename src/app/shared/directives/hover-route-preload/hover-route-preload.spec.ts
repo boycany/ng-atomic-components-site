@@ -110,4 +110,29 @@ describe('HoverRoutePreloadDirective', () => {
     expect(preloadCalls.count).toBe(1);
     expect(preloadState.canStartPreload('home')).toBe(true);
   });
+
+  it('does not preload when to is null', async () => {
+    const { preloadCalls, preloadState, anchor } = await setup({
+      to: null,
+    });
+
+    anchor.dispatchEvent(new Event('pointerenter'));
+
+    expect(preloadCalls.count).toBe(0);
+    expect(preloadState.canStartPreload('home')).toBe(false);
+    expect(preloadState.canStartPreload('feature')).toBe(false);
+  });
+
+  it('does not preload when url tree has no primary path segment', async () => {
+    const urlSerializer = new DefaultUrlSerializer();
+    const { preloadCalls, preloadState, anchor } = await setup({
+      to: urlSerializer.parse('/'),
+    });
+
+    anchor.dispatchEvent(new Event('focusin'));
+
+    expect(preloadCalls.count).toBe(0);
+    expect(preloadState.canStartPreload('home')).toBe(false);
+    expect(preloadState.canStartPreload('feature')).toBe(false);
+  });
 });
