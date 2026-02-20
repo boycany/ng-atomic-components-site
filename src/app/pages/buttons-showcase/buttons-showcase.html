@@ -43,27 +43,27 @@
   <div>
     <p>Circle Button</p>
     <div class="row">
-      <app-atomic-button shape="circle">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" color="success">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" color="danger">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" color="secondary">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" color="warn">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" variant="text">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
-      <app-atomic-button shape="circle" variant="outlined" color="success">
-        <span append><mat-icon>home</mat-icon></span>
-      </app-atomic-button>
+      @for (item of variantItems; track item.variant) {
+        @for (group of buttonGroups; track group.label) {
+          <app-atomic-button shape="circle" [color]="group.color" [variant]="item.variant">
+            <span append><mat-icon>home</mat-icon></span>
+          </app-atomic-button>
+        }
+      }
+    </div>
+  </div>
+  <div>
+    <p>Link Button</p>
+    <div class="row">
+      @for (group of buttonGroups; track group.label) {
+        <app-atomic-button
+          to="https://www.google.com"
+          variant="text"
+          [color]="group.color"
+          linkLabel="Google"
+        >
+        </app-atomic-button>
+      }
     </div>
   </div>
 </div>

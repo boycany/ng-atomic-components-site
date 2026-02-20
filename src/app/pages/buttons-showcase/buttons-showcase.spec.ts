@@ -39,14 +39,15 @@ describe('ButtonsShowcase', () => {
     const generatedButtons = 5 * 3;
     const iconButtons = 3;
     const disabledButtons = 3;
-    const circleButtons = 7;
+    const circleButtons = 5 * 3;
+    const linkButtons = 5;
 
     expect(buttonComponents.length).toBe(
-      generatedButtons + iconButtons + disabledButtons + circleButtons
+      generatedButtons + iconButtons + disabledButtons + circleButtons + linkButtons
     );
   });
 
-  it('renders icon, disabled and circle sections with expected labels', async () => {
+  it('renders icon, disabled, circle and link sections with expected labels', async () => {
     const { fixture } = await setup();
 
     fixture.detectChanges();
@@ -58,13 +59,20 @@ describe('ButtonsShowcase', () => {
     expect(nativeElement.textContent).toContain('Button with prepend and append icon');
     expect(nativeElement.textContent).toContain('Disabled Button');
     expect(nativeElement.textContent).toContain('Circle Button');
+    expect(nativeElement.textContent).toContain('Link Button');
 
     expect(nativeElement.textContent).toContain('Back');
     expect(nativeElement.textContent).toContain('Next');
+    expect(nativeElement.textContent).toContain('Google');
 
     expect(nativeElement.textContent).toContain('arrow_back');
     expect(nativeElement.textContent).toContain('arrow_forward');
     expect(nativeElement.textContent).toContain('check_circle');
     expect(nativeElement.textContent).toContain('arrow_drop_down');
+
+    const linkButtons = Array.from(nativeElement.querySelectorAll('app-atomic-button')).filter(
+      (button) => button.textContent?.includes('Google')
+    );
+    expect(linkButtons.length).toBe(5);
   });
 });

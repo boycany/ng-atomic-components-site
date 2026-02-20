@@ -1,11 +1,14 @@
-<button class="atomic-button" [class]="rootClass()" [disabled]="disabled()" [type]="type()">
-  <!-- <span> -->
-  <ng-content select="[prepend]"></ng-content>
-  <!-- </span> -->
-  <!-- <span> -->
-  <ng-content select="[label]"></ng-content>
-  <!-- </span> -->
-  <!-- <span> -->
-  <ng-content select="[append]"></ng-content>
-  <!-- </span> -->
-</button>
+@if (!to()) {
+  <button class="atomic-button" [class]="rootClass()" [disabled]="disabled()" [type]="type()">
+    <ng-content select="[prepend]"></ng-content>
+    <ng-content select="[label]"></ng-content>
+    <ng-content select="[append]"></ng-content>
+  </button>
+} @else {
+  <app-atomic-link
+    [to]="to()"
+    class="atomic-button"
+    [class]="rootClass()"
+    [text]="linkLabel()"
+  ></app-atomic-link>
+}
