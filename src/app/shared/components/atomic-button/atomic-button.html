@@ -1,1 +1,11 @@
-<p>atomic-button works!</p>
+<button class="atomic-button" [class]="rootClass()" [disabled]="disabled()" [type]="type()">
+  <!-- <span> -->
+  <ng-content select="[prepend]"></ng-content>
+  <!-- </span> -->
+  <!-- <span> -->
+  <ng-content select="[label]"></ng-content>
+  <!-- </span> -->
+  <!-- <span> -->
+  <ng-content select="[append]"></ng-content>
+  <!-- </span> -->
+</button>
