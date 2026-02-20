@@ -1,80 +1,44 @@
-<div style="margin: 16px">
+<div class="section">
   <h1>Links</h1>
-  <div style="display: flex; gap: 16px">
-    <app-atomic-link [to]="['home']" [text]="'Home'"></app-atomic-link> |
-    <app-atomic-link [to]="['feature']" [text]="'Feature'"></app-atomic-link>
+  <div class="row">
+    @for (link of links; track link.text) {
+      <app-atomic-link [to]="link.to" [text]="link.text"></app-atomic-link>
+      @if (!$last) {
+        <span>|</span>
+      }
+    }
   </div>
 </div>
 <mat-divider></mat-divider>
-<div style="margin: 16px">
+<div class="section">
   <h1>Buttons</h1>
+  @for (group of buttonGroups; track group.label) {
+    <div>
+      <p>{{ group.label }}</p>
+      <div class="row">
+        @for (item of variantItems; track item.variant) {
+          <app-atomic-button [variant]="item.variant" [color]="group.color">
+            <span label>{{ item.label }}</span>
+          </app-atomic-button>
+        }
+      </div>
+    </div>
+  }
   <div>
-    <p>Primary</p>
-    <div style="display: flex; gap: 16px">
+    <p>Button with prepend and append icon</p>
+    <div class="row">
       <app-atomic-button>
-        <span label>Contained Button</span>
+        <span prepend><mat-icon>arrow_back</mat-icon></span>
+        <span label>Back</span>
       </app-atomic-button>
-      <app-atomic-button variant="outlined">
-        <span label>Outlined Button</span>
+      <app-atomic-button>
+        <span label>Next</span>
+        <span append><mat-icon>arrow_forward</mat-icon></span>
       </app-atomic-button>
-      <app-atomic-button variant="text">
-        <span label>Text Button</span>
-      </app-atomic-button>
-    </div>
-  </div>
-  <div>
-    <p>Success</p>
-    <div style="display: flex; gap: 16px">
-      <app-atomic-button color="success">
-        <span label>Contained Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="outlined" color="success">
-        <span label>Outlined Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="text" color="success">
-        <span label>Text Button</span>
-      </app-atomic-button>
-    </div>
-  </div>
-  <div>
-    <p>Warn</p>
-    <div style="display: flex; gap: 16px">
-      <app-atomic-button color="warn">
-        <span label>Contained Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="outlined" color="warn">
-        <span label>Outlined Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="text" color="warn">
-        <span label>Text Button</span>
-      </app-atomic-button>
-    </div>
-  </div>
-  <div>
-    <p>Danger</p>
-    <div style="display: flex; gap: 16px">
-      <app-atomic-button color="danger">
-        <span label>Contained Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="outlined" color="danger">
-        <span label>Outlined Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="text" color="danger">
-        <span label>Text Button</span>
-      </app-atomic-button>
-    </div>
-  </div>
-  <div>
-    <p>Secondary</p>
-    <div style="display: flex; gap: 16px">
-      <app-atomic-button color="secondary">
-        <span label>Contained Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="outlined" color="secondary">
-        <span label>Outlined Button</span>
-      </app-atomic-button>
-      <app-atomic-button variant="text" color="secondary">
-        <span label>Text Button</span>
+      <app-atomic-button color="success" variant="outlined">
+        <span prepend><mat-icon>check_circle</mat-icon></span>
+        <span label>Success</span>
+        <span append><mat-icon>arrow_drop_down</mat-icon></span>
       </app-atomic-button>
     </div>
   </div>

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { type ButtonColor, type ButtonVariant } from './atomic-button.types';
 
 @Component({
   selector: 'app-atomic-button',
@@ -11,8 +12,8 @@ export class AtomicButton {
   disabled = input<boolean>(false);
   type = input<'button' | 'submit' | 'reset'>('button');
 
-  variant = input<'contained' | 'outlined' | 'text'>('contained');
-  color = input<'primary' | 'success' | 'warn' | 'danger' | 'secondary'>('primary');
+  variant = input<ButtonVariant>('contained');
+  color = input<ButtonColor>('primary');
   size = input<'normal' | 'small'>('normal');
   shape = input<'rectangle' | 'circle' | 'square'>('rectangle');
 
