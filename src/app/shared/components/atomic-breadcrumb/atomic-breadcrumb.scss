@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use 'vars' as vars;
+
+.atomic-breadcrumb {
+  &__container,
+  &__item {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 4px;
+  }
+
+  &__link:not([aria-current]) {
+    &:hover {
+      color: map.get(vars.$color-map, 'primary');
+    }
+  }
+
+  // &__label--sr-only {
+  //   @include sr-only;
+  // }
+
+  &__separator {
+    color: gray;
+    user-select: none;
+  }
+}

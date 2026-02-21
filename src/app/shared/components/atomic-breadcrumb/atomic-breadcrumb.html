@@ -1,1 +1,28 @@
-<p>atomic-breadcrumb works!</p>
+<nav class="atomic-breadcrumb">
+  <ol class="atomic-breadcrumb__container">
+    @for (item of items(); track $index) {
+      <li class="atomic-breadcrumb__item">
+        @if (!item.to) {
+          <span class="atomic-breadcrumb__link">{{ item.label }}</span>
+        } @else {
+          <app-atomic-link
+            class="atomic-breadcrumb__link"
+            [to]="item.to"
+            [text]="item.label"
+            [ariaLabel]="item.label"
+            [tabIndex]="$index"
+          ></app-atomic-link>
+        }
+        @if ($index < items().length - 1) {
+          <span class="atomic-breadcrumb__separator">
+            @if (strSeparator(); as separatorText) {
+              {{ separatorText }}
+            } @else if (compSeparator(); as separatorComponent) {
+              <ng-container [ngComponentOutlet]="separatorComponent"></ng-container>
+            }
+          </span>
+        }
+      </li>
+    }
+  </ol>
+</nav>

@@ -23,4 +23,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/buttons-showcase/buttons-showcase').then((m) => m.ButtonsShowcase),
   },
+  {
+    path: 'breadcrumbs',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'breadcrumbs',
+    },
+    loadComponent: () =>
+      import('./pages/breadcrumb-showcase/breadcrumb-showcase').then((m) => m.BreadcrumbShowcase),
+  },
 ];
