@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, Type } from '@angular/core';
 import { BreadcrumbItem } from './atomic-breadcrumb.types';
 import { AtomicLink } from '../atomic-link/atomic-link';
-import { NgComponentOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-atomic-breadcrumb',
-  imports: [AtomicLink, NgComponentOutlet],
+  imports: [CommonModule, AtomicLink],
   templateUrl: './atomic-breadcrumb.html',
   styleUrl: './atomic-breadcrumb.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
