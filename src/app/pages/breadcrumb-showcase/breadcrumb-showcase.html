@@ -26,4 +26,40 @@
       <app-atomic-breadcrumb [items]="staticItems"></app-atomic-breadcrumb>
     </div>
   </div>
+  <div>
+    <p>Label With Icon</p>
+    <div class="row">
+      <app-atomic-breadcrumb [items]="labelWithIconItems()"></app-atomic-breadcrumb>
+    </div>
+  </div>
+  <div>
+    <p>Without Label only Icon (Screen reader only labels for accessibility)</p>
+    <div class="row">
+      <app-atomic-breadcrumb [items]="iconItems()"></app-atomic-breadcrumb>
+    </div>
+  </div>
 </div>
+
+<ng-template #homeIconTmpl>
+  <mat-icon>home</mat-icon>
+</ng-template>
+
+<ng-template #productIconTmpl>
+  <mat-icon>inventory</mat-icon>
+</ng-template>
+
+<ng-template #electronicIconTmpl>
+  <mat-icon>electric_bolt</mat-icon>
+</ng-template>
+
+<ng-template #computerIconTmpl>
+  <mat-icon>computer</mat-icon>
+</ng-template>
+
+<ng-template #laptopIconTmpl>
+  <mat-icon>laptop_windows</mat-icon>
+</ng-template>
+
+<ng-template #laptopMacIconTmpl>
+  <mat-icon>laptop_mac</mat-icon>
+</ng-template>

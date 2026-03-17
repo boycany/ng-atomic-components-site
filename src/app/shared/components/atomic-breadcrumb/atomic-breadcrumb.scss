@@ -21,9 +21,9 @@
     }
   }
 
-  // &__label--sr-only {
-  //   @include sr-only;
-  // }
+  &__label--sr-only {
+    @include vars.sr-only;
+  }
 
   &__separator {
     color: gray;

@@ -1,20 +1,28 @@
-<nav class="atomic-breadcrumb">
+<nav class="atomic-breadcrumb" aria-label="Breadcrumb">
   <ol class="atomic-breadcrumb__container">
     @for (item of items(); track $index) {
       <li class="atomic-breadcrumb__item">
+        @let srOnlyClass =
+          {
+            'atomic-breadcrumb__label--sr-only': item.iconTmpl && item.iconOnly,
+          };
+        @if (item.iconTmpl) {
+          <ng-container [ngTemplateOutlet]="item.iconTmpl"></ng-container>
+        }
         @if (!item.to) {
-          <span class="atomic-breadcrumb__link">{{ item.label }}</span>
+          <span class="atomic-breadcrumb__link" [class]="srOnlyClass">{{ item.label }} </span>
         } @else {
           <app-atomic-link
             class="atomic-breadcrumb__link"
             [to]="item.to"
             [text]="item.label"
             [ariaLabel]="item.label"
+            [class]="srOnlyClass"
             [tabIndex]="$index"
           ></app-atomic-link>
         }
         @if ($index < items().length - 1) {
-          <span class="atomic-breadcrumb__separator">
+          <span class="atomic-breadcrumb__separator" aria-hidden="true">
             @if (strSeparator(); as separatorText) {
               {{ separatorText }}
             } @else if (compSeparator(); as separatorComponent) {
