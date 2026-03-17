@@ -1,4 +1,29 @@
-<h2>BreadCrumbs with different separators</h2>
-<app-atomic-breadcrumb [items]="breadcrumbItems"></app-atomic-breadcrumb>
-<app-atomic-breadcrumb [items]="breadcrumbItemsWithCustomSeparator" [separator]="customSeparator">
-</app-atomic-breadcrumb>
+<div class="section">
+  <h1>Breadcrumbs</h1>
+  <div>
+    <p>Default separator</p>
+    <div class="row">
+      <app-atomic-breadcrumb [items]="basicItems"></app-atomic-breadcrumb>
+    </div>
+  </div>
+  <div>
+    <p>Custom string separators</p>
+    <div class="row col">
+      @for (sep of stringSeparators; track sep.label) {
+        <div>
+          <span class="sep-label">{{ sep.label }}</span>
+          <app-atomic-breadcrumb
+            [items]="basicItems"
+            [separator]="sep.value"
+          ></app-atomic-breadcrumb>
+        </div>
+      }
+    </div>
+  </div>
+  <div>
+    <p>All non-clickable (current page only)</p>
+    <div class="row">
+      <app-atomic-breadcrumb [items]="staticItems"></app-atomic-breadcrumb>
+    </div>
+  </div>
+</div>
