@@ -14,6 +14,8 @@ interface BreadcrumbShowcaseInternals {
   basicItems: BreadcrumbItem[];
   stringSeparators: SeparatorOption[];
   staticItems: BreadcrumbItem[];
+  labelWithIconItems: () => BreadcrumbItem[];
+  iconItems: () => BreadcrumbItem[];
 }
 
 const setup = async () => {
@@ -132,6 +134,57 @@ describe('BreadcrumbShowcase', () => {
       const { fixture } = await setup();
       const paragraphs = fixture.debugElement.queryAll(By.css('p'));
       expect(paragraphs[2].nativeElement.textContent).toBe('All non-clickable (current page only)');
+    });
+  });
+
+  describe('data: labelWithIconItems', () => {
+    it('should have 6 items', async () => {
+      const { component } = await setup();
+      expect(component.labelWithIconItems()).toHaveLength(6);
+    });
+
+    it('should start with Home linking to /', async () => {
+      const { component } = await setup();
+      expect(component.labelWithIconItems()[0].label).toBe('Home');
+      expect(component.labelWithIconItems()[0].to).toBe('/');
+    });
+
+    it('should end with MacBook Pro without a link', async () => {
+      const { component } = await setup();
+      const last = component.labelWithIconItems()[5];
+      expect(last.label).toBe('MacBook Pro');
+      expect(last.to).toBeUndefined();
+    });
+
+    it('should have iconTmpl defined for each item after view init', async () => {
+      const { component } = await setup();
+      for (const item of component.labelWithIconItems()) {
+        expect(item.iconTmpl).toBeDefined();
+      }
+    });
+  });
+
+  describe('data: iconItems', () => {
+    it('should have 6 items', async () => {
+      const { component } = await setup();
+      expect(component.iconItems()).toHaveLength(6);
+    });
+
+    it('should set iconOnly: true on every item', async () => {
+      const { component } = await setup();
+      for (const item of component.iconItems()) {
+        expect(item.iconOnly).toBe(true);
+      }
+    });
+
+    it('should derive same labels and routes as labelWithIconItems', async () => {
+      const { component } = await setup();
+      const base = component.labelWithIconItems();
+      const icons = component.iconItems();
+      icons.forEach((item, i) => {
+        expect(item.label).toBe(base[i].label);
+        expect(item.to).toBe(base[i].to);
+      });
     });
   });
 });
