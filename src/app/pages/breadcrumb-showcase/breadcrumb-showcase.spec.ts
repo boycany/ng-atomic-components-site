@@ -41,10 +41,10 @@ describe('BreadcrumbShowcase', () => {
     expect(h1.nativeElement.textContent).toBe('Breadcrumbs');
   });
 
-  it('should render 7 breadcrumb components (1 default + 5 custom separators + 1 static)', async () => {
+  it('should render 9 breadcrumb components (1 default + 5 custom separators + 1 static + 1 label-with-icon + 1 icon-only)', async () => {
     const { fixture } = await setup();
     const breadcrumbs = fixture.debugElement.queryAll(By.css('app-atomic-breadcrumb'));
-    expect(breadcrumbs.length).toBe(7);
+    expect(breadcrumbs.length).toBe(9);
   });
 
   describe('data: basicItems', () => {

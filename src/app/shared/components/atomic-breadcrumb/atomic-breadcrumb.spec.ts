@@ -35,7 +35,7 @@ describe('AtomicBreadcrumb', () => {
   });
 
   it('renders text items with default string separator', async () => {
-    const { fixture, component } = await setup();
+    const { fixture } = await setup();
 
     fixture.componentRef.setInput('items', [{ label: 'Home' }, { label: 'Design System' }]);
     fixture.detectChanges();
@@ -51,11 +51,9 @@ describe('AtomicBreadcrumb', () => {
 
     expect(labels).toEqual(['Home', 'Design System']);
     expect(separators).toEqual(['/']);
-    expect(component.strSeparator()).toBe('/');
-    expect(component.compSeparator()).toBeNull();
   });
 
-  it('renders atomic links for items with to and binds index as tabindex', async () => {
+  it('renders atomic links for items with to', async () => {
     const { fixture } = await setup();
 
     fixture.componentRef.setInput('items', [
@@ -73,15 +71,13 @@ describe('AtomicBreadcrumb', () => {
     expect(links.length).toBe(2);
     expect(links[0]?.getAttribute('href')).toContain('/');
     expect(links[0]?.getAttribute('aria-label')).toBe('Home');
-    expect(links[0]?.getAttribute('tabindex')).toBe('0');
     expect(links[1]?.getAttribute('href')).toContain('/components');
     expect(links[1]?.getAttribute('aria-label')).toBe('Components');
-    expect(links[1]?.getAttribute('tabindex')).toBe('1');
     expect(labels).toContain('Breadcrumb');
   });
 
   it('uses custom string separator', async () => {
-    const { fixture, component } = await setup();
+    const { fixture } = await setup();
 
     fixture.componentRef.setInput('items', [{ label: 'A' }, { label: 'B' }, { label: 'C' }]);
     fixture.componentRef.setInput('separator', '>');
@@ -94,12 +90,10 @@ describe('AtomicBreadcrumb', () => {
     ).map((el) => el.textContent?.trim());
 
     expect(separators).toEqual(['>', '>']);
-    expect(component.strSeparator()).toBe('>');
-    expect(component.compSeparator()).toBeNull();
   });
 
   it('uses custom component separator when separator input is a component type', async () => {
-    const { fixture, component } = await setup();
+    const { fixture } = await setup();
     const separatorComponent = TestSeparatorComponent as Type<unknown>;
 
     fixture.componentRef.setInput('items', [{ label: 'A' }, { label: 'B' }, { label: 'C' }]);
@@ -111,7 +105,55 @@ describe('AtomicBreadcrumb', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(customSeparators.length).toBe(2);
-    expect(component.strSeparator()).toBeNull();
-    expect(component.compSeparator()).toBe(separatorComponent);
+  });
+
+  it('sets aria-current="page" only on the last non-link item', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('items', [
+      { label: 'Home' },
+      { label: 'Category' },
+      { label: 'Current Page' },
+    ]);
+    fixture.detectChanges();
+
+    const spans = fixture.nativeElement.querySelectorAll(
+      '.atomic-breadcrumb__link'
+    ) as NodeListOf<HTMLElement>;
+
+    expect(spans[0]?.getAttribute('aria-current')).toBeNull();
+    expect(spans[1]?.getAttribute('aria-current')).toBeNull();
+    expect(spans[2]?.getAttribute('aria-current')).toBe('page');
+  });
+
+  it('does not set aria-current when the last item is a link', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('items', [
+      { label: 'Home', to: '/' },
+      { label: 'About', to: '/about' },
+    ]);
+    fixture.detectChanges();
+
+    const links = fixture.nativeElement.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>;
+    expect(links[1]?.getAttribute('aria-current')).toBeNull();
+  });
+
+  it('does not apply sr-only class when iconTmpl is absent', async () => {
+    const { fixture } = await setup();
+
+    fixture.componentRef.setInput('items', [
+      { label: 'Home', iconOnly: true },
+      { label: 'Current' },
+    ]);
+    fixture.detectChanges();
+
+    const labelSpans = fixture.nativeElement.querySelectorAll(
+      '.atomic-breadcrumb__link'
+    ) as NodeListOf<HTMLElement>;
+    // iconOnly without iconTmpl should NOT apply sr-only
+    labelSpans.forEach((span) => {
+      expect(span.classList.contains('atomic-breadcrumb__label--sr-only')).toBe(false);
+    });
   });
 });

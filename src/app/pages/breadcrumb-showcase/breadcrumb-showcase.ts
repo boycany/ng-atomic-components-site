@@ -37,16 +37,12 @@ export class BreadcrumbShowcase {
     { label: '→', value: '→' },
   ];
 
-  protected readonly singleItem: BreadcrumbItem[] = [{ label: 'Home' }];
-
-  protected readonly twoItems: BreadcrumbItem[] = [{ label: 'Home', to: '/' }, { label: 'About' }];
-
-  homeIconTmpl = viewChild<TemplateRef<unknown>>('homeIconTmpl');
-  productIconTmpl = viewChild<TemplateRef<unknown>>('productIconTmpl');
-  electronicIconTmpl = viewChild<TemplateRef<unknown>>('electronicIconTmpl');
-  computerIconTmpl = viewChild<TemplateRef<unknown>>('computerIconTmpl');
-  laptopIconTmpl = viewChild<TemplateRef<unknown>>('laptopIconTmpl');
-  laptopMacIconTmpl = viewChild<TemplateRef<unknown>>('laptopMacIconTmpl');
+  protected homeIconTmpl = viewChild<TemplateRef<unknown>>('homeIconTmpl');
+  protected productIconTmpl = viewChild<TemplateRef<unknown>>('productIconTmpl');
+  protected electronicIconTmpl = viewChild<TemplateRef<unknown>>('electronicIconTmpl');
+  protected computerIconTmpl = viewChild<TemplateRef<unknown>>('computerIconTmpl');
+  protected laptopIconTmpl = viewChild<TemplateRef<unknown>>('laptopIconTmpl');
+  protected laptopMacIconTmpl = viewChild<TemplateRef<unknown>>('laptopMacIconTmpl');
   protected readonly labelWithIconItems = computed<BreadcrumbItem[]>(() => {
     return [
       { label: 'Home', to: '/', iconTmpl: this.homeIconTmpl() },
@@ -66,31 +62,9 @@ export class BreadcrumbShowcase {
     ];
   });
 
-  protected readonly iconItems = computed<BreadcrumbItem[]>(() => {
-    return [
-      { label: 'Home', to: '/', iconTmpl: this.homeIconTmpl(), iconOnly: true },
-      { label: 'Products', to: '/products', iconTmpl: this.productIconTmpl(), iconOnly: true },
-      {
-        label: 'Electronics',
-        to: '/products/electronics',
-        iconTmpl: this.electronicIconTmpl(),
-        iconOnly: true,
-      },
-      {
-        label: 'Computers',
-        to: '/products/electronics/computers',
-        iconTmpl: this.computerIconTmpl(),
-        iconOnly: true,
-      },
-      {
-        label: 'Laptops',
-        to: '/products/electronics/computers/laptops',
-        iconTmpl: this.laptopIconTmpl(),
-        iconOnly: true,
-      },
-      { label: 'MacBook Pro', iconTmpl: this.laptopMacIconTmpl(), iconOnly: true },
-    ];
-  });
+  protected readonly iconItems = computed<BreadcrumbItem[]>(() =>
+    this.labelWithIconItems().map((item) => ({ ...item, iconOnly: true }))
+  );
 
   protected readonly staticItems: BreadcrumbItem[] = [
     { label: 'Home' },
