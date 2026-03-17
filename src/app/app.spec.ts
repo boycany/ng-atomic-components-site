@@ -21,7 +21,7 @@ describe('App', () => {
     });
   });
 
-  it('renders header navigation links and one separator', async () => {
+  it('renders header navigation links and separators', async () => {
     const { fixture } = await setup();
 
     fixture.detectChanges();
@@ -34,10 +34,11 @@ describe('App', () => {
       (el) => el.textContent?.trim() === '|'
     );
 
-    expect(headerLinks.length).toBe(2);
-    expect(separators.length).toBe(1);
+    expect(headerLinks.length).toBe(3);
+    expect(separators.length).toBe(2);
     expect(nativeElement.textContent).toContain('Home');
     expect(nativeElement.textContent).toContain('Buttons');
+    expect(nativeElement.textContent).toContain('Breadcrumbs');
   });
 
   it('renders footer message and GitHub repository link', async () => {

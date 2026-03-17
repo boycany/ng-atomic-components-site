@@ -20,5 +20,9 @@ export class App {
   protected readonly links: LinkItem[] = [
     { to: ['home'], text: 'Home' },
     { to: ['buttons'], text: 'Buttons' },
+    {
+      to: ['breadcrumbs'],
+      text: 'Breadcrumbs',
+    },
   ];
 }
