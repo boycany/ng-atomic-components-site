@@ -1,13 +1,30 @@
-import { Component, Type } from '@angular/core';
+import { Component, computed, signal, TemplateRef, Type, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NoPreloading, provideRouter, withPreloading } from '@angular/router';
 
 import { AtomicBreadcrumb } from './atomic-breadcrumb';
+import { BreadcrumbItem } from './atomic-breadcrumb.types';
 
 @Component({
   template: '<span class="custom-separator">•</span>',
 })
 class TestSeparatorComponent {}
+
+@Component({
+  imports: [AtomicBreadcrumb],
+  template: `
+    <ng-template #iconTmpl><span class="test-icon">icon</span></ng-template>
+    <app-atomic-breadcrumb [items]="items()"></app-atomic-breadcrumb>
+  `,
+})
+class TestHostWithIconTemplate {
+  private readonly iconRef = viewChild<TemplateRef<unknown>>('iconTmpl');
+  readonly iconOnly = signal(false);
+  readonly items = computed<BreadcrumbItem[]>(() => [
+    { label: 'Home', to: '/', iconTmpl: this.iconRef(), iconOnly: this.iconOnly() },
+    { label: 'Current', iconTmpl: this.iconRef(), iconOnly: this.iconOnly() },
+  ]);
+}
 
 const setup = async () => {
   await TestBed.configureTestingModule({
@@ -154,6 +171,39 @@ describe('AtomicBreadcrumb', () => {
     // iconOnly without iconTmpl should NOT apply sr-only
     labelSpans.forEach((span) => {
       expect(span.classList.contains('atomic-breadcrumb__label--sr-only')).toBe(false);
+    });
+  });
+
+  it('renders icon template in the DOM when iconTmpl is set', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithIconTemplate],
+      providers: [provideRouter([], withPreloading(NoPreloading))],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestHostWithIconTemplate);
+    fixture.detectChanges();
+    fixture.detectChanges(); // second pass lets signal graph stabilize after viewChild resolves
+
+    const icons = fixture.nativeElement.querySelectorAll('.test-icon') as NodeListOf<HTMLElement>;
+    expect(icons.length).toBe(2);
+  });
+
+  it('applies sr-only class to label when iconTmpl and iconOnly are both set', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithIconTemplate],
+      providers: [provideRouter([], withPreloading(NoPreloading))],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestHostWithIconTemplate);
+    fixture.detectChanges();
+    fixture.componentInstance.iconOnly.set(true);
+    fixture.detectChanges();
+
+    const labels = fixture.nativeElement.querySelectorAll(
+      '.atomic-breadcrumb__link'
+    ) as NodeListOf<HTMLElement>;
+    labels.forEach((el) => {
+      expect(el.classList.contains('atomic-breadcrumb__label--sr-only')).toBe(true);
     });
   });
 });
