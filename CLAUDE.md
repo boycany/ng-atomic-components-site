@@ -33,6 +33,14 @@ Angular 21 app using standalone components, signals, and Angular Material. No Ng
 - `src/app/shared/components/` — Reusable atomic components (atomic-button, atomic-breadcrumb, atomic-link)
 - `src/app/pages/` — Lazy-loaded showcase/feature pages
 - `src/app/shared/directives/` — Custom directives
+- `src/app/shared/preloading/` — Hover-based preloading strategy and state service
+
+**File conventions:**
+
+- Components omit the `.component` segment: `atomic-button.ts`, not `atomic-button.component.ts`
+- Exported types live in a sibling `.types.ts` file (e.g., `atomic-button.types.ts`)
+- Utility/helper logic lives in a sibling `.utils.ts` file (e.g., `atomic-link.utils.ts`)
+- To enable hover preloading on a route, add `data: { preloadOnHover: true, preloadKey: '<name>' }` to its route definition
 
 ## Angular Coding Conventions
 
