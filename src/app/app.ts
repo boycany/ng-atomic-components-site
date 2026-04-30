@@ -24,5 +24,6 @@ export class App {
       to: ['breadcrumbs'],
       text: 'Breadcrumbs',
     },
+    { to: ['track-mouse'], text: 'Track Mouse' },
   ];
 }

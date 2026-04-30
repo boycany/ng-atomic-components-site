@@ -1,0 +1,15 @@
+<div class="section">
+  <h1>Track Mouse Directive</h1>
+  <div class="example-container">
+    <div class="example-item">
+      <div>1. Track mouse pointer in this div using directive's signal outputs</div>
+      <div class="field" appTrackMouse #tracker="trackMouse">
+        <div class="ball" [style.left.px]="tracker.x()" [style.top.px]="tracker.y()"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div>2. Track mouse pointer with CSS radial gradient background</div>
+      <div class="field example-second" appTrackMouse></div>
+    </div>
+  </div>
+</div>
