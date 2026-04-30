@@ -25,5 +25,9 @@ export class App {
       text: 'Breadcrumbs',
     },
     { to: ['track-mouse'], text: 'Track Mouse' },
+    {
+      to: ['decorate'],
+      text: 'Decorate Text',
+    },
   ];
 }

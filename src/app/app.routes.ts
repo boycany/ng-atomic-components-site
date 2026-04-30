@@ -41,4 +41,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/track-mouse-showcase/track-mouse-showcase').then((m) => m.TrackMouseShowcase),
   },
+  {
+    path: 'decorate',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'decorate',
+    },
+    loadComponent: () =>
+      import('./pages/decorate-showcase/decorate-showcase').then((m) => m.DecorateShowcase),
+  },
 ];
