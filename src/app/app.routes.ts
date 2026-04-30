@@ -32,4 +32,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/breadcrumb-showcase/breadcrumb-showcase').then((m) => m.BreadcrumbShowcase),
   },
+  {
+    path: 'track-mouse',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'track-mouse',
+    },
+    loadComponent: () =>
+      import('./pages/track-mouse-showcase/track-mouse-showcase').then((m) => m.TrackMouseShowcase),
+  },
 ];
