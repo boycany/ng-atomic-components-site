@@ -34,11 +34,12 @@ describe('App', () => {
       (el) => el.textContent?.trim() === '|'
     );
 
-    expect(headerLinks.length).toBe(3);
-    expect(separators.length).toBe(2);
+    expect(headerLinks.length).toBe(4);
+    expect(separators.length).toBe(3);
     expect(nativeElement.textContent).toContain('Home');
     expect(nativeElement.textContent).toContain('Buttons');
     expect(nativeElement.textContent).toContain('Breadcrumbs');
+    expect(nativeElement.textContent).toContain('Track Mouse');
   });
 
   it('renders footer message and GitHub repository link', async () => {
