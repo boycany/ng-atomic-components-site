@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject, signal } from '@angular/core';
-import { clamp } from '../../helpers/clamp.helper';
+import { clamp } from '../../helpers/clamp/clamp.helper';
 
 @Directive({
   selector: '[appTrackMouse]',

@@ -1,0 +1,49 @@
+<div class="section capitalize-showcase">
+  <h1>Capitalize Directive</h1>
+  <p>
+    Fill in the form with lowercase words, then leave each text field to apply
+    <code>appCapitalize</code>.
+  </p>
+
+  <form class="capitalize-form" [formGroup]="form" (ngSubmit)="submitForm()">
+    <label class="field">
+      <span>Full name</span>
+      <input type="text" appCapitalize formControlName="fullName" placeholder="ada lovelace" />
+    </label>
+
+    <label class="field">
+      <span>Job title</span>
+      <input
+        type="text"
+        appCapitalize
+        formControlName="jobTitle"
+        placeholder="principal frontend engineer"
+      />
+    </label>
+
+    <label class="field">
+      <span>City</span>
+      <input type="text" appCapitalize formControlName="city" placeholder="taipei city" />
+    </label>
+
+    <button type="submit">Submit form</button>
+  </form>
+
+  <div class="preview" aria-live="polite">
+    <h2>Submitted value</h2>
+    <dl>
+      <div>
+        <dt>Full name</dt>
+        <dd>{{ submittedValue.fullName }}</dd>
+      </div>
+      <div>
+        <dt>Job title</dt>
+        <dd>{{ submittedValue.jobTitle }}</dd>
+      </div>
+      <div>
+        <dt>City</dt>
+        <dd>{{ submittedValue.city }}</dd>
+      </div>
+    </dl>
+  </div>
+</div>
