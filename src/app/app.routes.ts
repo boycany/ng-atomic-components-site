@@ -50,4 +50,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/decorate-showcase/decorate-showcase').then((m) => m.DecorateShowcase),
   },
+  {
+    path: 'capitalize',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'capitalize',
+    },
+    loadComponent: () =>
+      import('./pages/capitalize-showcase/capitalize-showcase').then((m) => m.CapitalizeShowcase),
+  },
 ];

@@ -29,5 +29,9 @@ export class App {
       to: ['decorate'],
       text: 'Decorate Text',
     },
+    {
+      to: ['capitalize'],
+      text: 'Capitalize Text',
+    },
   ];
 }
