@@ -1,0 +1,48 @@
+.image-tooltip-showcase {
+  display: grid;
+  gap: 20px;
+}
+
+.image-tooltip-showcase p {
+  max-width: 720px;
+}
+
+.image-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 256px));
+}
+
+.image-card {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+img {
+  aspect-ratio: 1;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  width: 256px;
+}
+
+figcaption {
+  display: grid;
+  gap: 4px;
+  max-width: 256px;
+}
+
+figcaption span {
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-label-large);
+}
+
+figcaption code {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}

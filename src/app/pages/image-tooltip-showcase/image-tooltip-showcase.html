@@ -1,0 +1,19 @@
+<div class="section image-tooltip-showcase">
+  <h1>Image Tooltip Directive</h1>
+  <p>
+    Hover each image to see <code>appImageTooltip</code> copy the image <code>alt</code> text into
+    the native browser tooltip.
+  </p>
+
+  <div class="image-grid">
+    @for (image of images; track image.src) {
+      <figure class="image-card">
+        <img appImageTooltip [ngSrc]="image.src" [alt]="image.alt" width="256" height="256" />
+        <figcaption>
+          <span>{{ image.caption }}</span>
+          <code>{{ image.alt }}</code>
+        </figcaption>
+      </figure>
+    }
+  </div>
+</div>
