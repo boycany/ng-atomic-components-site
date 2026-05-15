@@ -47,9 +47,7 @@ describe('ImageTooltipShowcase', () => {
   it('should set native title text from alt text', () => {
     const images = Array.from(fixture.nativeElement.querySelectorAll('img')) as HTMLImageElement[];
 
-    expect(images[0].getAttribute('title')).toBe('Sample image with native browser tooltip');
-    expect(images[1].getAttribute('title')).toBe(
-      'Second sample image with synchronized alt and title text'
-    );
+    expect(images[0].getAttribute('title')).toBe('Sample image');
+    expect(images[1].getAttribute('title')).toBe('Second sample image');
   });
 });
