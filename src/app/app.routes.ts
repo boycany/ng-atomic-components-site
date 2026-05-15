@@ -70,4 +70,13 @@ export const routes: Routes = [
         (m) => m.ImageTooltipShowcase
       ),
   },
+  {
+    path: 'expander',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'expander',
+    },
+    loadComponent: () =>
+      import('./pages/expander-showcase/expander-showcase').then((m) => m.ExpanderShowcase),
+  },
 ];

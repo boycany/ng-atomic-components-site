@@ -1,0 +1,19 @@
+<div class="header-area">
+  {{ header() }}
+</div>
+<div class="toggle-area">
+  <app-atomic-button shape="circle" color="primary" variant="text" (click)="toggle()">
+    <span append>
+      @if (isExpanded()) {
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      } @else {
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      }
+    </span>
+  </app-atomic-button>
+</div>
+@if (isExpanded()) {
+  <div class="content-area" animate.leave="leaves" animate.enter="enters">
+    <ng-content />
+  </div>
+}

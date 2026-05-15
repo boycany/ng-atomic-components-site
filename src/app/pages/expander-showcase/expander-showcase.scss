@@ -1,0 +1,9 @@
+div.section {
+  max-width: 50vw;
+  display: grid;
+  gap: 16px;
+
+  div.row {
+    width: 100%;
+  }
+}
