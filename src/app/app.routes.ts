@@ -59,4 +59,15 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/capitalize-showcase/capitalize-showcase').then((m) => m.CapitalizeShowcase),
   },
+  {
+    path: 'image-tooltip',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'image-tooltip',
+    },
+    loadComponent: () =>
+      import('./pages/image-tooltip-showcase/image-tooltip-showcase').then(
+        (m) => m.ImageTooltipShowcase
+      ),
+  },
 ];

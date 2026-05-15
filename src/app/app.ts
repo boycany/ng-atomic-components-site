@@ -33,5 +33,9 @@ export class App {
       to: ['capitalize'],
       text: 'Capitalize Text',
     },
+    {
+      to: ['image-tooltip'],
+      text: 'Image Tooltip',
+    },
   ];
 }
