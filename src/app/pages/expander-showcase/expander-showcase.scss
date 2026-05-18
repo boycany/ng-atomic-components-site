@@ -8,8 +8,8 @@ div.section {
   }
 }
 
-.expander-header__container {
+span[expander-header] {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
