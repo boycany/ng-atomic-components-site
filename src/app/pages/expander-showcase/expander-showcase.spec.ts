@@ -60,6 +60,19 @@ describe('ExpanderShowcase', () => {
     expect(headerEls[2]?.textContent?.trim()).toBe('What is Content Projection?');
   });
 
+  it('should render the projection icon in the rich text expander header', async () => {
+    const { fixture } = await setup();
+
+    const richHeader = fixture.nativeElement.querySelectorAll('.header-area')[2] as
+      | HTMLElement
+      | undefined;
+    const icon = richHeader?.querySelector('app-icon') as HTMLElement | null;
+    const iconPath = icon?.querySelector('path') as SVGPathElement | null;
+
+    expect(icon).not.toBeNull();
+    expect(iconPath?.getAttribute('d')).toBeTruthy();
+  });
+
   it('should render all expanders as collapsed initially', async () => {
     const { fixture } = await setup();
 

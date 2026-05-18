@@ -1,5 +1,5 @@
 <div class="header-area">
-  {{ header() }}
+  <ng-content select="[expander-header]"></ng-content>
 </div>
 <div class="toggle-area">
   <app-atomic-button shape="circle" color="primary" variant="text" (click)="toggle()">

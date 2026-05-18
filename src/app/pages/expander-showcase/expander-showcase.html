@@ -2,14 +2,21 @@
   <h2>Simple Text Content</h2>
   @for (d of data(); track d.id) {
     <div class="row">
-      <app-expander [header]="d.header">
+      <app-expander>
+        <span expander-header>{{ d.header }}</span>
         {{ d.content }}
       </app-expander>
     </div>
   }
   <h2>Rich Text Content</h2>
   <div class="row">
-    <app-expander header="What is Content Projection?">
+    <app-expander>
+      <span expander-header>
+        <div class="expander-header__container">
+          What is Content Projection?
+          <app-icon name="projection"></app-icon>
+        </div>
+      </span>
       <h2>The Core Idea</h2>
       <p>
         Content projection is a pattern in Angular that allows a component to

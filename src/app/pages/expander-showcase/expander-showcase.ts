@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Expander } from '../../shared/components/expander/expander';
 import { MatDividerModule } from '@angular/material/divider';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-expander-showcase',
-  imports: [Expander, MatDividerModule],
+  imports: [Expander, MatDividerModule, Icon],
   templateUrl: './expander-showcase.html',
   styleUrl: './expander-showcase.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -6,7 +6,8 @@ import { Expander } from './expander';
 @Component({
   imports: [Expander],
   template: `
-    <app-expander header="Test Header">
+    <app-expander>
+      <span expander-header class="projected-header">Test Header</span>
       <p class="projected-content">Projected Content</p>
     </app-expander>
   `,
@@ -70,14 +71,20 @@ describe('Expander', () => {
     expect(component.isCollapsed()).toBe(true);
   });
 
-  it('should render header input', async () => {
-    const { fixture } = await setup();
+  it('should project expander-header content into the header area', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithContent],
+    }).compileComponents();
 
-    fixture.componentRef.setInput('header', 'My Section');
+    const fixture = TestBed.createComponent(TestHostWithContent);
     fixture.detectChanges();
 
     const headerEl = fixture.nativeElement.querySelector('.header-area') as HTMLElement;
-    expect(headerEl.textContent?.trim()).toBe('My Section');
+    const projectedHeader = headerEl.querySelector('.projected-header') as HTMLElement | null;
+
+    expect(projectedHeader).not.toBeNull();
+    expect(projectedHeader?.textContent?.trim()).toBe('Test Header');
+    expect(headerEl.textContent?.trim()).toBe('Test Header');
   });
 
   it('should hide content area when collapsed', async () => {
