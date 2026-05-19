@@ -1,18 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { Expander } from './expander';
+import { ExpanderToggle } from './expander-toggle';
+import { ExpanderToggleComponent } from './expander-toggle.component';
 
 @Component({
   imports: [Expander],
   template: `
     <app-expander>
-      <span expander-header class="projected-header">Test Header</span>
+      <span appExpanderHeader class="projected-header">Test Header</span>
       <p class="projected-content">Projected Content</p>
     </app-expander>
   `,
 })
 class TestHostWithContent {}
+
+@Component({
+  imports: [Expander, ExpanderToggle],
+  template: `
+    <app-expander>
+      <span appExpanderHeader>Header</span>
+      <button appExpanderToggle class="custom-toggle" type="button">Toggle</button>
+    </app-expander>
+  `,
+})
+class TestHostWithToggleDirective {
+  readonly expander = viewChild.required(Expander);
+}
+
+@Component({
+  imports: [Expander, ExpanderToggle, ExpanderToggleComponent],
+  template: `
+    <app-expander>
+      <span appExpanderHeader>Header</span>
+      <button appExpanderToggle type="button" class="custom-toggle">
+        <app-expander-toggle>
+          <span expander-open class="open-slot">OPEN</span>
+          <span expander-close class="close-slot">CLOSE</span>
+        </app-expander-toggle>
+      </button>
+    </app-expander>
+  `,
+})
+class TestHostWithToggleComponent {
+  readonly expander = viewChild.required(Expander);
+}
 
 const setup = async () => {
   await TestBed.configureTestingModule({
@@ -71,7 +104,7 @@ describe('Expander', () => {
     expect(component.isCollapsed()).toBe(true);
   });
 
-  it('should project expander-header content into the header area', async () => {
+  it('should project appExpanderHeader content into the header area', async () => {
     await TestBed.configureTestingModule({
       imports: [TestHostWithContent],
     }).compileComponents();
@@ -104,21 +137,41 @@ describe('Expander', () => {
     expect(contentArea).not.toBeNull();
   });
 
-  it('should show keyboard_arrow_down icon when collapsed', async () => {
+  it('should render default toggle with "More" label when collapsed', async () => {
     const { fixture } = await setup();
 
-    const icon = fixture.nativeElement.querySelector('mat-icon') as HTMLElement;
-    expect(icon.textContent?.trim()).toBe('keyboard_arrow_down');
+    const toggleArea = fixture.nativeElement.querySelector('.toggle-area') as HTMLElement;
+    expect(toggleArea.textContent?.trim()).toBe('More');
   });
 
-  it('should show keyboard_arrow_up icon when expanded', async () => {
+  it('should render default toggle with "Less" label when expanded', async () => {
     const { fixture, component } = await setup();
 
     component.toggle();
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    const icon = fixture.nativeElement.querySelector('mat-icon') as HTMLElement;
-    expect(icon.textContent?.trim()).toBe('keyboard_arrow_up');
+    const toggleArea = fixture.nativeElement.querySelector('.toggle-area') as HTMLElement;
+    expect(toggleArea.textContent?.trim()).toBe('Less');
+  });
+
+  it('should toggle when the default toggle button is clicked', async () => {
+    const { fixture, component } = await setup();
+
+    const button = fixture.nativeElement.querySelector(
+      '.toggle-area app-atomic-button'
+    ) as HTMLElement;
+    button.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.isExpanded()).toBe(true);
+  });
+
+  it('should report hasCustomToggle() as false when no custom toggle is projected', async () => {
+    const { component } = await setup();
+
+    expect(component.hasCustomToggle()).toBe(false);
   });
 
   it('should project content into content-area when expanded', async () => {
@@ -140,5 +193,69 @@ describe('Expander', () => {
     const projected = expanderEl.querySelector('.projected-content') as HTMLElement | null;
     expect(projected).not.toBeNull();
     expect(projected?.textContent?.trim()).toBe('Projected Content');
+  });
+
+  it('should detect a projected appExpanderToggle directive and suppress the default toggle', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithToggleDirective],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestHostWithToggleDirective);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const expander = fixture.componentInstance.expander();
+    expect(expander.hasCustomToggle()).toBe(true);
+
+    const toggleArea = fixture.nativeElement.querySelector('.toggle-area') as HTMLElement;
+    expect(toggleArea.querySelector('app-atomic-button')).toBeNull();
+    expect(toggleArea.querySelector('.custom-toggle')).not.toBeNull();
+  });
+
+  it('should toggle the expander when a projected appExpanderToggle is clicked', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithToggleDirective],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestHostWithToggleDirective);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const expander = fixture.componentInstance.expander();
+    const customToggle = fixture.nativeElement.querySelector('.custom-toggle') as HTMLElement;
+
+    customToggle.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(expander.isExpanded()).toBe(true);
+
+    customToggle.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(expander.isExpanded()).toBe(false);
+  });
+
+  it('should detect a projected app-expander-toggle component and swap its open/close slots', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestHostWithToggleComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TestHostWithToggleComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const expander = fixture.componentInstance.expander();
+    expect(expander.hasCustomToggle()).toBe(true);
+
+    const toggleEl = fixture.nativeElement.querySelector('app-expander-toggle') as HTMLElement;
+    expect(toggleEl.querySelector('.close-slot')).not.toBeNull();
+    expect(toggleEl.querySelector('.open-slot')).toBeNull();
+
+    expander.toggle();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(toggleEl.querySelector('.open-slot')).not.toBeNull();
+    expect(toggleEl.querySelector('.close-slot')).toBeNull();
   });
 });

@@ -34,8 +34,8 @@ describe('ExpanderShowcase', () => {
       'app-expander'
     ) as NodeListOf<HTMLElement>;
 
-    // 2 from the data signal loop + 1 rich text example
-    expect(expanders.length).toBe(3);
+    // 2 from the data signal loop + 1 rich text example + 1 default-toggle example
+    expect(expanders.length).toBe(4);
   });
 
   it('should render headers from data signal', async () => {

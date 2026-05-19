@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { AtomicButton } from '../atomic-button/atomic-button';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  input,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ExpanderToggle } from './expander-toggle';
+import { ExpanderToggleComponent } from './expander-toggle.component';
+import { AtomicButton } from '../atomic-button/atomic-button';
 
 @Component({
   selector: 'app-expander',
-  imports: [AtomicButton, MatIconModule],
+  imports: [MatIconModule, AtomicButton],
   templateUrl: './expander.html',
   styleUrl: './expander.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +28,11 @@ export class Expander {
   readonly isCollapsed = computed(() => !this.isExpanded());
 
   readonly header = input('');
+  readonly expanderToggleDirective = contentChild(ExpanderToggle);
+  readonly expanderToggleComponent = contentChild(ExpanderToggleComponent);
+  readonly hasCustomToggle = computed(
+    () => !!this.expanderToggleComponent() || !!this.expanderToggleDirective()
+  );
 
   toggle() {
     this.#isExpanded.update((val) => !val);
