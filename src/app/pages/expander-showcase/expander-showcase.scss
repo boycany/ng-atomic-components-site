@@ -1,0 +1,15 @@
+div.section {
+  max-width: 50vw;
+  display: grid;
+  gap: 16px;
+
+  div.row {
+    width: 100%;
+  }
+}
+
+span[appExpanderHeader] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

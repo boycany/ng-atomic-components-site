@@ -6,6 +6,13 @@ $color-map: (
   secondary: #909399,
 );
 
+:root {
+  // css variable
+  --primary: #1976d2;
+  --primary-15: color-mix(in srgb, var(--primary) 15%, white);
+  --primary-25: color-mix(in srgb, var(--expander-primary) 25%, white);
+}
+
 @mixin sr-only {
   position: absolute;
   width: 1px;

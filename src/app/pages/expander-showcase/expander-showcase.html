@@ -1,0 +1,80 @@
+<div class="section">
+  <h2>Simple Text Content</h2>
+  @for (d of data(); track d.id) {
+    <div class="row">
+      <app-expander #expander>
+        <span appExpanderHeader>{{ d.header }}</span>
+        {{ d.content }}
+        <app-atomic-button appExpanderToggle shape="circle" color="primary" variant="text">
+          <span append>
+            @if (expander.isExpanded()) {
+              <mat-icon>keyboard_arrow_up</mat-icon>
+            } @else {
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            }
+          </span>
+        </app-atomic-button>
+      </app-expander>
+    </div>
+  }
+  <h2>Rich Text Content</h2>
+  <div class="row">
+    <app-expander>
+      <span appExpanderHeader>
+        <app-icon name="projection"></app-icon>
+        What is Content Projection?
+      </span>
+
+      <app-atomic-button appExpanderToggle shape="circle" color="primary" variant="text">
+        <span append>
+          <app-expander-toggle>
+            <mat-icon expander-open>remove</mat-icon>
+            <mat-icon expander-close>add</mat-icon>
+          </app-expander-toggle>
+        </span>
+      </app-atomic-button>
+
+      <h2>The Core Idea</h2>
+      <p>
+        Content projection is a pattern in Angular that allows a component to
+        <strong>accept and render markup provided by its parent</strong>. Rather than hardcoding its
+        inner structure, a component defines <strong>slots</strong>
+        where external content is inserted at runtime.
+      </p>
+
+      <h2>How It Works</h2>
+      <p>
+        Using the <strong>ng-content</strong> element, a component declares one or more projection
+        slots. The parent then passes arbitrary HTML or even other components into those slots,
+        keeping the child component <strong>flexible, reusable, and decoupled</strong> from the
+        content it displays.
+      </p>
+    </app-expander>
+  </div>
+
+  <h2>Expander with Default Toggle</h2>
+  <div class="row">
+    <app-expander>
+      <span appExpanderHeader>
+        <app-icon name="cogwheel"></app-icon>
+        What is Content Projection?
+      </span>
+
+      <h2>The Core Idea</h2>
+      <p>
+        Content projection is a pattern in Angular that allows a component to
+        <strong>accept and render markup provided by its parent</strong>. Rather than hardcoding its
+        inner structure, a component defines <strong>slots</strong>
+        where external content is inserted at runtime.
+      </p>
+
+      <h2>How It Works</h2>
+      <p>
+        Using the <strong>ng-content</strong> element, a component declares one or more projection
+        slots. The parent then passes arbitrary HTML or even other components into those slots,
+        keeping the child component <strong>flexible, reusable, and decoupled</strong> from the
+        content it displays.
+      </p>
+    </app-expander>
+  </div>
+</div>

@@ -37,5 +37,9 @@ export class App {
       to: ['image-tooltip'],
       text: 'Image Tooltip',
     },
+    {
+      to: ['expander'],
+      text: 'Expander',
+    },
   ];
 }
