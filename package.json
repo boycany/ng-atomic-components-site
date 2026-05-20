@@ -15,7 +15,8 @@
     "lint": "ng lint",
     "check": "prettier --check .",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "genkit:ui": "genkit start -- npx tsx --watch src/index.ts"
   },
   "private": true,
   "packageManager": "npm@11.6.2",
@@ -30,8 +31,10 @@
     "@angular/material-luxon-adapter": "^21.1.5",
     "@angular/platform-browser": "^21.1.0",
     "@angular/router": "^21.1.0",
+    "@genkit-ai/google-genai": "^1.34.0",
     "@ngrx/operators": "^21.0.1",
     "@ngrx/signals": "^21.0.1",
+    "genkit": "^1.34.0",
     "luxon": "^3.7.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
