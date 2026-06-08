@@ -15,6 +15,7 @@ export class AtomicButton {
   disabled = input<boolean>(false);
   type = input<'button' | 'submit' | 'reset'>('button');
   ariaLabel = input<string | undefined>(undefined);
+  ariaCurrent = input<string | undefined>(undefined);
 
   // link
   to = input<LinkTo>();

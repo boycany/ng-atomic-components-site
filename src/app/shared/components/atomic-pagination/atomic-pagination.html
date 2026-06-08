@@ -1,0 +1,126 @@
+<nav aria-label="pagination navigation" class="atomic-pagination">
+  <ul class="atomic-pagination__container">
+    @if (showFirstButton()) {
+      <li class="atomic-pagination__item">
+        <app-atomic-button
+          class="atomic-pagination__button atomic-pagination__button--first"
+          [disabled]="disabled() || page() <= 1"
+          variant="outlined"
+          (click)="updatePage(1)"
+        >
+          <span append>
+            <mat-icon>keyboard_double_arrow_left</mat-icon>
+          </span>
+        </app-atomic-button>
+      </li>
+    }
+    @if (!hidePrevButton()) {
+      <li class="atomic-pagination__item">
+        <app-atomic-button
+          [disabled]="disabled() || page() <= 1"
+          class="atomic-pagination__button atomic-pagination__button--previous"
+          variant="outlined"
+          (click)="updatePage(page() - 1)"
+        >
+          <span append>
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </span>
+        </app-atomic-button>
+      </li>
+    }
+    <!--
+      Boundary pages depend on count(), not page(), so their values stay
+      constant while navigating. Track by the page number (stable identity).
+    -->
+    @for (pageNumber of startPages(); track pageNumber) {
+      @let inCurrentPage = pageNumber === page();
+      <ng-container
+        [ngTemplateOutlet]="paginationItemTemplate"
+        [ngTemplateOutletContext]="{
+          pageNumber: pageNumber,
+          inCurrentPage: inCurrentPage,
+        }"
+      ></ng-container>
+    }
+    @if (needStartEllipsis()) {
+      <span class="atomic-pagination__button atomic-pagination__button--ellipsis">
+        <mat-icon>more_horiz</mat-icon>
+      </span>
+    }
+    <!--
+      The sibling window slides on every page() change and can swap to a fully
+      non-overlapping set (e.g. [7,8,9] -> [2,3,4]). Tracking by page number
+      would recreate the whole collection on such jumps (Angular NG0956), so
+      track by $index instead: reuse the positional button nodes and just
+      update their bindings.
+    -->
+    @for (pageNumber of siblingPages(); track $index) {
+      @let inCurrentPage = pageNumber === page();
+      <ng-container
+        [ngTemplateOutlet]="paginationItemTemplate"
+        [ngTemplateOutletContext]="{
+          pageNumber: pageNumber,
+          inCurrentPage: inCurrentPage,
+        }"
+      ></ng-container>
+    }
+    @if (needEndEllipsis()) {
+      <span class="atomic-pagination__button atomic-pagination__button--ellipsis">
+        <mat-icon>more_horiz</mat-icon>
+      </span>
+    }
+    @for (pageNumber of endPages(); track pageNumber) {
+      @let inCurrentPage = pageNumber === page();
+      <ng-container
+        [ngTemplateOutlet]="paginationItemTemplate"
+        [ngTemplateOutletContext]="{
+          pageNumber: pageNumber,
+          inCurrentPage: inCurrentPage,
+        }"
+      ></ng-container>
+    }
+    @if (!hideNextButton()) {
+      <li class="atomic-pagination__item">
+        <app-atomic-button
+          [disabled]="disabled() || page() >= count()"
+          class="atomic-pagination__button atomic-pagination__button--next"
+          variant="outlined"
+          (click)="updatePage(page() + 1)"
+        >
+          <span append>
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </span>
+        </app-atomic-button>
+      </li>
+    }
+    @if (showLastButton()) {
+      <li class="atomic-pagination__item">
+        <app-atomic-button
+          class="atomic-pagination__button atomic-pagination__button--last"
+          [disabled]="disabled() || page() >= count()"
+          variant="outlined"
+          (click)="updatePage(count())"
+        >
+          <span append>
+            <mat-icon>keyboard_double_arrow_right</mat-icon>
+          </span>
+        </app-atomic-button>
+      </li>
+    }
+  </ul>
+</nav>
+
+<ng-template #paginationItemTemplate let-pageNumber="pageNumber" let-inCurrentPage="inCurrentPage">
+  <li class="atomic-pagination__item">
+    <app-atomic-button
+      [ariaCurrent]="inCurrentPage ? 'page' : undefined"
+      [disabled]="disabled()"
+      [ariaLabel]="inCurrentPage ? undefined : `Go to page ${pageNumber}`"
+      class="atomic-pagination__button"
+      [variant]="inCurrentPage ? 'contained' : 'outlined'"
+      (click)="updatePage(pageNumber)"
+    >
+      <span label>{{ pageNumber }}</span>
+    </app-atomic-button>
+  </li>
+</ng-template>

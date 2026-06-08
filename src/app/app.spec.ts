@@ -34,8 +34,8 @@ describe('App', () => {
       (el) => el.textContent?.trim() === '|'
     );
 
-    expect(headerLinks.length).toBe(8);
-    expect(separators.length).toBe(7);
+    expect(headerLinks.length).toBe(9);
+    expect(separators.length).toBe(8);
     expect(nativeElement.textContent).toContain('Home');
     expect(nativeElement.textContent).toContain('Buttons');
     expect(nativeElement.textContent).toContain('Breadcrumbs');
@@ -44,6 +44,7 @@ describe('App', () => {
     expect(nativeElement.textContent).toContain('Capitalize Text');
     expect(nativeElement.textContent).toContain('Image Tooltip');
     expect(nativeElement.textContent).toContain('Expander');
+    expect(nativeElement.textContent).toContain('Pagination');
   });
 
   it('renders footer message and GitHub repository link', async () => {
