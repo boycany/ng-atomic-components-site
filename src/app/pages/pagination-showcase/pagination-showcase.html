@@ -1,0 +1,59 @@
+<div class="section">
+  <h2>Paginator 1</h2>
+  <ul>
+    <li>with First & Last Buttons</li>
+    <li>boundaryCount = 1</li>
+    <li>siblingCount = 1</li>
+  </ul>
+  <app-atomic-pagination
+    [page]="1"
+    [perPage]="10"
+    [total]="1000"
+    [boundaryCount]="1"
+    [siblingCount]="1"
+    [showFirstButton]="true"
+    [showLastButton]="true"
+  ></app-atomic-pagination>
+  <h2>Paginator 2</h2>
+  <ul>
+    <li>no First & Last Buttons</li>
+    <li>boundaryCount = 3</li>
+    <li>siblingCount = 3</li>
+  </ul>
+  <app-atomic-pagination
+    [page]="10"
+    [perPage]="10"
+    [total]="1000"
+    [boundaryCount]="3"
+    [siblingCount]="3"
+  ></app-atomic-pagination>
+  <h2>Paginator 3</h2>
+  <ul>
+    <li>no First & Last Buttons</li>
+    <li>boundaryCount = 1</li>
+    <li>siblingCount = 2</li>
+  </ul>
+  <app-atomic-pagination
+    [page]="1"
+    [perPage]="10"
+    [total]="10"
+    [boundaryCount]="1"
+    [siblingCount]="1"
+  ></app-atomic-pagination>
+  <h2>Paginator 4</h2>
+  <ul>
+    <li>without First & Last Buttons</li>
+    <li>no prev and next buttons</li>
+    <li>boundaryCount = 1</li>
+    <li>siblingCount = 1</li>
+  </ul>
+  <app-atomic-pagination
+    [page]="4"
+    [perPage]="15"
+    [total]="100"
+    [boundaryCount]="1"
+    [siblingCount]="1"
+    [hidePrevButton]="true"
+    [hideNextButton]="true"
+  ></app-atomic-pagination>
+</div>

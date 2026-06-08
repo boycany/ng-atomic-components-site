@@ -1,0 +1,21 @@
+.atomic-pagination {
+  &__container {
+    display: flex;
+    column-gap: 6px;
+    list-style: none;
+  }
+
+  &__button {
+    padding-right: 0;
+    padding-left: 0;
+    min-width: 36px;
+    font-size: 0.75rem;
+
+    &--ellipsis {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+  }
+}

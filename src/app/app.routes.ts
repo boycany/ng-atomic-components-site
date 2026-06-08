@@ -79,4 +79,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/expander-showcase/expander-showcase').then((m) => m.ExpanderShowcase),
   },
+  {
+    path: 'pagination',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'pagination',
+    },
+    loadComponent: () =>
+      import('./pages/pagination-showcase/pagination-showcase').then((m) => m.PaginationShowcase),
+  },
 ];

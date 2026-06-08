@@ -41,5 +41,9 @@ export class App {
       to: ['expander'],
       text: 'Expander',
     },
+    {
+      to: ['pagination'],
+      text: 'Pagination',
+    },
   ];
 }
