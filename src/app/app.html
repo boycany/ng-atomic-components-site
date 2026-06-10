@@ -1,6 +1,6 @@
 <header class="section">
   <h1>Atomic UI Lab for Angular v21</h1>
-  <nav class="row">
+  <nav class="row flex-wrap">
     @for (link of links; track link.text) {
       <app-atomic-link [to]="link.to" [text]="link.text"></app-atomic-link>
       @if (!$last) {
