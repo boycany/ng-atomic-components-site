@@ -45,5 +45,9 @@ export class App {
       to: ['pagination'],
       text: 'Pagination',
     },
+    {
+      to: ['tabs'],
+      text: 'Tabs',
+    },
   ];
 }

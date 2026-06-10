@@ -5,7 +5,9 @@
       "Bash(npm test *)",
       "Bash(npx vitest *)",
       "Bash(npx ng *)",
-      "Bash(npx prettier *)"
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)",
+      "Bash(node *)"
     ]
   }
 }

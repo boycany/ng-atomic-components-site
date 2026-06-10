@@ -1,0 +1,17 @@
+<div class="atomic-tabs">
+  <div class="atomic-tabs__tablist">
+    @for (tab of tabs(); track tab.value) {
+      <button
+        class="atomic-tabs__tab"
+        [class]="tab.class"
+        [disabled]="tab.disabled"
+        role="tab"
+        type="button"
+        (click)="onTabClick(tab.value)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+  <ng-content />
+</div>

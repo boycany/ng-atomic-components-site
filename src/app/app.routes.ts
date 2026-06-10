@@ -88,4 +88,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/pagination-showcase/pagination-showcase').then((m) => m.PaginationShowcase),
   },
+  {
+    path: 'tabs',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'tabs',
+    },
+    loadComponent: () => import('./pages/tabs-showcase/tabs-showcase').then((m) => m.TabsShowcase),
+  },
 ];
