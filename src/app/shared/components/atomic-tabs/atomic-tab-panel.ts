@@ -4,7 +4,15 @@ import { ATOMIC_TABS } from './atomic-tabs';
 @Component({
   selector: 'app-atomic-tab-panel',
   imports: [],
-  template: `<div role="tabpanel" [hidden]="!selected()"><ng-content /></div>`,
+  template: ` <div
+    role="tabpanel"
+    tabindex="0"
+    [hidden]="!selected()"
+    [id]="tabpanelId()"
+    [attr.aria-labelledby]="tabId()"
+  >
+    <ng-content />
+  </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AtomicTabPanel {
@@ -15,4 +23,8 @@ export class AtomicTabPanel {
 
   // keep-alive:用 [hidden] 而非 @if,切走時 panel 內容不會被 destroy,狀態自然保留
   selected = computed(() => this.tabs.selectedValue() === this.value());
+
+  private ids = computed(() => this.tabs.lookup().get(this.value()));
+  tabId = computed(() => this.ids()?.tabId);
+  tabpanelId = computed(() => this.ids()?.tabpanelId);
 }

@@ -13,9 +13,13 @@ import { firstValueFrom, isObservable, Observable, of } from 'rxjs';
 export interface AtomicTabsContext {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedValue: Signal<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  lookup: Signal<Map<any, { tabId: string; tabpanelId: string }>>;
 }
 
 export const ATOMIC_TABS = new InjectionToken<AtomicTabsContext>('ATOMIC_TABS');
+
+let nextUniqueId = 0;
 
 @Component({
   selector: 'app-atomic-tabs',
@@ -31,6 +35,10 @@ export const ATOMIC_TABS = new InjectionToken<AtomicTabsContext>('ATOMIC_TABS');
   ],
 })
 export class AtomicTabs implements AtomicTabsContext {
+  private readonly uid = `atomic-tabs-${nextUniqueId++}`;
+
+  ariaLabel = input<string>();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedValue = model.required<any>();
   items = input.required<AtomicTabsItem[]>();
@@ -47,8 +55,19 @@ export class AtomicTabs implements AtomicTabsContext {
         class: {
           'atomic-tabs__tab--selected': selected,
         },
+        tabId: `${this.uid}-tab-${item.value}`,
+        tabPanelId: `${this.uid}-panel-${item.value}`,
       };
     });
+  });
+
+  lookup = computed(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const map = new Map<any, { tabId: string; tabpanelId: string }>();
+    this.tabs().forEach((tab) => {
+      map.set(tab.value, { tabId: tab.tabId, tabpanelId: tab.tabPanelId });
+    });
+    return map;
   });
 
   beforeChange = input<(e: AtomicTabsChange) => boolean | Promise<boolean> | Observable<boolean>>();
@@ -66,6 +85,34 @@ export class AtomicTabs implements AtomicTabsContext {
     }
     this.selectedValue.set(value);
   }
+
+  onTabKeydown(event: KeyboardEvent) {
+    const tablist = event.currentTarget as HTMLElement;
+    // console.log('tablist: ', tablist);
+    const currentFocus = document.activeElement as HTMLElement;
+    // console.log('currentFocus: ', currentFocus);
+
+    if (!tablist) return;
+    // console.log('event.key', event.key);
+    switch (event.key) {
+      case 'ArrowRight':
+        event.preventDefault();
+        moveFocus(tablist, currentFocus, nextItem);
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        moveFocus(tablist, currentFocus, previousItem);
+        break;
+      case 'Home':
+        event.preventDefault();
+        moveFocus(tablist, null, nextItem);
+        break;
+      case 'End':
+        event.preventDefault();
+        moveFocus(tablist, null, previousItem);
+        break;
+    }
+  }
 }
 
 export interface AtomicTabsItem {
@@ -80,4 +127,44 @@ export interface AtomicTabsChange {
   from: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   to: any;
+}
+
+export function nextItem(container: HTMLElement, item: HTMLElement | null): HTMLElement | null {
+  if (item && item.nextElementSibling) {
+    return item.nextElementSibling as HTMLElement;
+  }
+  return container.firstElementChild as HTMLElement | null;
+}
+
+export function previousItem(container: HTMLElement, item: HTMLElement | null): HTMLElement | null {
+  if (item && item.previousElementSibling) {
+    return item.previousElementSibling as HTMLElement;
+  }
+  return container.lastElementChild as HTMLElement | null;
+}
+
+type TraversalFunction = (
+  container: HTMLElement,
+  currentFocus: HTMLElement | null
+) => HTMLElement | null;
+
+export function moveFocus(
+  container: HTMLElement,
+  currentFocus: HTMLElement | null,
+  traversalFn: TraversalFunction
+) {
+  let nextFocus = traversalFn(container, currentFocus);
+  while (nextFocus) {
+    const nextFocusDisabled =
+      (nextFocus as HTMLButtonElement).disabled ||
+      nextFocus.getAttribute('aria-disabled') === 'true';
+
+    if (!nextFocus.hasAttribute('tabindex') || nextFocusDisabled) {
+      nextFocus = traversalFn(container, nextFocus);
+    } else {
+      nextFocus.focus();
+      return true;
+    }
+  }
+  return false;
 }
