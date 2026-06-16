@@ -1,10 +1,21 @@
 <div class="atomic-tabs">
-  <div class="atomic-tabs__tablist">
+  <!-- keydown lives on the tablist (event delegation); focus is on the child tab buttons (roving tabindex), so the container itself need not be focusable. -->
+  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+  <div
+    class="atomic-tabs__tablist"
+    (keydown)="onTabKeydown($event)"
+    role="tablist"
+    [attr.aria-label]="ariaLabel()"
+  >
     @for (tab of tabs(); track tab.value) {
       <button
         class="atomic-tabs__tab"
         [class]="tab.class"
         [disabled]="tab.disabled"
+        [tabIndex]="tab.selected ? 0 : -1"
+        [id]="tab.tabId"
+        [attr.aria-controls]="tab.tabPanelId"
+        [attr.aria-selected]="tab.selected ? 'true' : 'false'"
         role="tab"
         type="button"
         (click)="onTabClick(tab.value)"

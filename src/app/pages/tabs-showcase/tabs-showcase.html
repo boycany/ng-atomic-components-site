@@ -1,6 +1,6 @@
 <div class="section">
   <h2>Normal Tabs</h2>
-  <app-atomic-tabs [items]="items" [(selectedValue)]="selectedValue">
+  <app-atomic-tabs [items]="items" [(selectedValue)]="selectedValue" ariaLabel="Normal tabs">
     <app-atomic-tab-panel value="tab1">
       <p>Content for Tab 1</p>
     </app-atomic-tab-panel>
@@ -17,6 +17,7 @@
     [items]="items2"
     [(selectedValue)]="selectedValue2"
     [beforeChange]="confirmLeave"
+    ariaLabel="Tabs with unsaved-changes guard"
   >
     <app-atomic-tab-panel value="form1"><app-saveable-form key="form1" /></app-atomic-tab-panel>
     <app-atomic-tab-panel value="form2"><app-saveable-form key="form2" /></app-atomic-tab-panel>
