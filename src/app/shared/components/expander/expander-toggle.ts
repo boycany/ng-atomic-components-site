@@ -5,6 +5,7 @@ import { Expander } from './expander';
   selector: '[appExpanderToggle]',
   host: {
     '(click)': 'onClick()',
+    '[style.cursor]': '"pointer"',
   },
 })
 export class ExpanderToggle {
