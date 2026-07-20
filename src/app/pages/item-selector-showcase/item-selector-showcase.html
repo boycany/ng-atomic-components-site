@@ -1,0 +1,30 @@
+<div class="colors-area">
+  <!-- We could provide multiple template for each role inside the component app-item-selector by defining different directives -->
+  <app-item-selector title="Color" [options]="possibleColors()" [(selectedOption)]="selectedColor">
+    <ng-template appItemTemplate let-color>
+      <span [style.color]="color">{{ color }}</span>
+    </ng-template>
+  </app-item-selector>
+</div>
+<div class="fonts-area">
+  <app-item-selector title="Font" [options]="possibleFonts()" [(selectedOption)]="selectedFont">
+    <ng-template appItemTemplate let-font>
+      <span [style.font-family]="font">{{ font }}</span>
+    </ng-template>
+  </app-item-selector>
+</div>
+<div class="sizes-area">
+  <app-item-selector title="Size" [options]="possibleSizes()" [(selectedOption)]="selectedSize">
+    <ng-template appItemTemplate let-size>
+      <span [style.font-size]="size">{{ size }}</span>
+    </ng-template>
+  </app-item-selector>
+</div>
+<div class="editor-area">
+  <textarea
+    placeholder="Type your text here..."
+    [style.color]="selectedColor()"
+    [style.font-family]="selectedFont()"
+    [style.font-size]="selectedSize()"
+  ></textarea>
+</div>

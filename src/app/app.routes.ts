@@ -96,4 +96,15 @@ export const routes: Routes = [
     },
     loadComponent: () => import('./pages/tabs-showcase/tabs-showcase').then((m) => m.TabsShowcase),
   },
+  {
+    path: 'item-selector',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'item-selector',
+    },
+    loadComponent: () =>
+      import('./pages/item-selector-showcase/item-selector-showcase').then(
+        (m) => m.ItemSelectorShowcase
+      ),
+  },
 ];

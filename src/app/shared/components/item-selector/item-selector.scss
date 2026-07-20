@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+
+  .options-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0.4rem;
+    border: 1px solid var(--secondary-50);
+    border-radius: 0.4rem;
+    background-color: var(--secondary-05);
+
+    .option-item {
+      padding: 0.35rem 0.55rem;
+      border: 1px solid var(--secondary-50);
+      border-radius: 0.35rem;
+      background-color: white;
+      color: black;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 500;
+      line-height: normal;
+      cursor: pointer;
+      user-select: none;
+
+      &.is-selected {
+        border-color: var(--primary-50);
+        background-color: var(--primary-15);
+        color: var(--primary-85);
+
+        &::before {
+          content: '✓';
+          font-weight: 700;
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}

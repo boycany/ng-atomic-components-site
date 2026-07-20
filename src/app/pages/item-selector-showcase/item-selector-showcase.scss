@@ -1,0 +1,41 @@
+@use 'sass:map';
+@use 'vars' as vars;
+
+:host {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'color font size'
+    'editor editor editor';
+  gap: 1rem;
+  height: 100%;
+  padding: 1rem;
+  //   flex-grow: 1;
+  //   box-sizing: border-box;
+
+  .colors-area {
+    grid-area: color;
+  }
+
+  .fonts-area {
+    grid-area: font;
+  }
+
+  .sizes-area {
+    grid-area: size;
+  }
+
+  .editor-area {
+    grid-area: editor;
+    display: grid;
+
+    textarea {
+      resize: none;
+      border: 1px solid map.get(vars.$color-map, 'secondary');
+      border-radius: 0.5rem;
+      padding: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+}

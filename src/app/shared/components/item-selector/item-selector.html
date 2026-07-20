@@ -1,0 +1,24 @@
+<span>{{ title() }}</span>
+<div class="options-list" role="listbox" [attr.aria-label]="title()">
+  @for (opt of options(); track opt) {
+    <button
+      type="button"
+      class="option-item"
+      role="option"
+      [class.is-selected]="opt === selectedOption()"
+      [attr.aria-selected]="opt === selectedOption() ? 'true' : 'false'"
+      (click)="onSelect(opt)"
+    >
+      @if (hasItemTemplate()) {
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate()"
+          [ngTemplateOutletContext]="{
+            $implicit: opt,
+          }"
+        />
+      } @else {
+        {{ opt }}
+      }
+    </button>
+  }
+</div>
