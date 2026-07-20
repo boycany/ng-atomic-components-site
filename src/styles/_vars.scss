@@ -11,6 +11,14 @@ $color-map: (
   --primary: #1976d2;
   --primary-15: color-mix(in srgb, var(--primary) 15%, white);
   --primary-25: color-mix(in srgb, var(--expander-primary) 25%, white);
+  --primary-50: color-mix(in srgb, var(--primary) 50%, white);
+  --primary-85: color-mix(in srgb, var(--primary) 85%, white);
+
+  --secondary: #909399;
+  --secondary-05: color-mix(in srgb, var(--secondary) 5%, white);
+  --secondary-25: color-mix(in srgb, var(--secondary) 25%, white);
+  --secondary-50: color-mix(in srgb, var(--secondary) 50%, white);
+  --secondary-85: color-mix(in srgb, var(--secondary) 85%, white);
 }
 
 @mixin sr-only {

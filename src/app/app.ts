@@ -49,5 +49,9 @@ export class App {
       to: ['tabs'],
       text: 'Tabs',
     },
+    {
+      to: ['item-selector'],
+      text: 'Item Selector',
+    },
   ];
 }
