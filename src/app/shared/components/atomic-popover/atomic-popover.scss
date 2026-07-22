@@ -1,0 +1,15 @@
+$name: '.atomic-popover';
+
+#{$name}__reference {
+  display: inline-flex;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+#{$name} {
+  z-index: 1000;
+}
