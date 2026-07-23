@@ -43,6 +43,9 @@ export class ItemSelector {
     this.selectedOption.set(option);
   }
 
+  // Angular's template expression parser doesn't support arrow-function
+  // literals, so the per-option closure has to be built here instead of
+  // inline in item-selector.html's ngTemplateOutlet context.
   makeOnSelect(option: string) {
     return () => this.onSelect(option);
   }
