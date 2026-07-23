@@ -3,6 +3,7 @@ import { Directive, inject, TemplateRef } from '@angular/core';
 export interface ItemContainerContext {
   readonly $implicit: string;
   readonly isSelected: boolean;
+  readonly tabIndex: number;
   readonly onSelect: () => void;
 }
 

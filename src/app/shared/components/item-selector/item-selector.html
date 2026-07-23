@@ -1,5 +1,12 @@
 <span>{{ title() }}</span>
-<div class="options-list" role="listbox" [attr.aria-label]="title()">
+<!-- keydown lives on the listbox (event delegation); focus is on the child options (roving tabindex), so the container itself need not be focusable. -->
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+<div
+  class="options-list"
+  role="listbox"
+  [attr.aria-label]="title()"
+  (keydown)="onOptionsKeydown($event)"
+>
   @for (opt of options(); track opt) {
     @if (hasItemContainerTemplate()) {
       <ng-container
@@ -8,6 +15,7 @@
           context: {
             $implicit: opt,
             isSelected: opt === selectedOption(),
+            tabIndex: opt === focusedOption() ? 0 : -1,
             onSelect: makeOnSelect(opt),
           }
         "
@@ -17,6 +25,7 @@
         type="button"
         class="option-item"
         role="option"
+        [tabIndex]="opt === focusedOption() ? 0 : -1"
         [class.is-selected]="opt === selectedOption()"
         [attr.aria-selected]="opt === selectedOption() ? 'true' : 'false'"
         (click)="onSelect(opt)"
