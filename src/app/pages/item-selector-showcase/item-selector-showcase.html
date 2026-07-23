@@ -1,23 +1,37 @@
 <div class="colors-area">
   <!-- We could provide multiple template for each role inside the component app-item-selector by defining different directives -->
   <app-item-selector title="Color" [options]="possibleColors()" [(selectedOption)]="selectedColor">
-    <ng-template appItemTemplate let-color>
-      <span [style.color]="color">{{ color }}</span>
-    </ng-template>
+    <!-- 
+      Add star syntax here means wrap the <span> into a ng-template with input binding let-color. 
+
+      It's exactly the same as: 
+      
+      <ng-template appItemTemplate let-color>
+        <span [style.color]="color">{{ color }}</span>
+      </ng-template>
+      
+      -->
+    <span *appItemTemplate="let color" [style.color]="color">{{ color }}</span>
   </app-item-selector>
 </div>
 <div class="fonts-area">
   <app-item-selector title="Font" [options]="possibleFonts()" [(selectedOption)]="selectedFont">
-    <ng-template appItemTemplate let-font>
-      <span [style.font-family]="font">{{ font }}</span>
-    </ng-template>
+    <button
+      class="fonts-container"
+      type="button"
+      *appItemContainer="let font; let selected = isSelected; let action = onSelect"
+      [class.chosen]="selected"
+      [attr.aria-selected]="selected"
+      (click)="action()"
+      [style.--font-option]="font"
+    >
+      {{ font }}
+    </button>
   </app-item-selector>
 </div>
 <div class="sizes-area">
   <app-item-selector title="Size" [options]="possibleSizes()" [(selectedOption)]="selectedSize">
-    <ng-template appItemTemplate let-size>
-      <span [style.font-size]="size">{{ size }}</span>
-    </ng-template>
+    <span *appItemTemplate="let size" [style.font-size]="size">{{ size }}</span>
   </app-item-selector>
 </div>
 <div class="editor-area">

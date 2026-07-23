@@ -3,12 +3,12 @@ import {
   Component,
   computed,
   contentChild,
-  effect,
   input,
   model,
 } from '@angular/core';
 import { ItemTemplateDirective } from './item-template.directive';
 import { NgTemplateOutlet } from '@angular/common';
+import { ItemContainerDirective } from './item-container.directive';
 
 @Component({
   selector: 'app-item-selector',
@@ -25,11 +25,18 @@ export class ItemSelector {
   readonly itemTemplateDirective = contentChild(ItemTemplateDirective);
   readonly hasItemTemplate = computed(() => !!this.itemTemplateDirective());
   readonly itemTemplate = computed(() => this.itemTemplateDirective()?.template ?? null);
-  private itemTempDirEff = effect(() => console.log(this.itemTemplate()));
+
+  readonly itemContainerDirective = contentChild(ItemContainerDirective);
+  readonly hasItemContainerTemplate = computed(() => !!this.itemContainerDirective());
+  readonly itemContainer = computed(() => this.itemContainerDirective()?.template ?? null);
 
   onSelect(option: string) {
     this.selectedOption.set(option);
   }
+
+  makeOnSelect(option: string) {
+    return () => this.onSelect(option);
+  }
 }
 
-export const ItemSelectorModule = [ItemSelector, ItemTemplateDirective];
+export const ItemSelectorModule = [ItemSelector, ItemTemplateDirective, ItemContainerDirective];

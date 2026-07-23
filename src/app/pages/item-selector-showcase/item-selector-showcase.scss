@@ -38,4 +38,26 @@
       line-height: 1.5;
     }
   }
+
+  .fonts-container {
+    background-color: white;
+    border: 1px solid var(--primary-85);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: var(--font-option);
+    cursor: pointer;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+
+    &:hover {
+      background-color: var(--primary-15);
+      color: var(--primary-85);
+    }
+
+    &.chosen {
+      background-color: var(--primary-50);
+      color: white;
+    }
+  }
 }
