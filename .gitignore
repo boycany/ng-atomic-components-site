@@ -23,7 +23,6 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -45,4 +44,3 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
-.claude/settings.local.json
