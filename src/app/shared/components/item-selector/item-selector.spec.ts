@@ -77,6 +77,75 @@ describe('ItemSelector', () => {
       expect(red.classList.contains('is-selected')).toBe(false);
       expect(red.getAttribute('aria-selected')).toBe('false');
     });
+
+    it('gives only the selected option a roving tabindex of 0, the rest -1', async () => {
+      const { fixture, host } = await setup();
+      const [red, blue, green] = optionButtons(fixture);
+
+      expect(red.tabIndex).toBe(0);
+      expect(blue.tabIndex).toBe(-1);
+      expect(green.tabIndex).toBe(-1);
+
+      blue.click();
+      await stabilize(fixture);
+
+      expect(host.selected()).toBe('blue');
+      expect(red.tabIndex).toBe(-1);
+      expect(blue.tabIndex).toBe(0);
+    });
+
+    it('moves focus between options with ArrowRight/ArrowLeft and wraps at the edges', async () => {
+      const { fixture } = await setup();
+      const listbox = fixture.nativeElement.querySelector('.options-list') as HTMLElement;
+      const [red, blue, green] = optionButtons(fixture);
+
+      red.focus();
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(blue);
+
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(green);
+
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(red);
+
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(green);
+    });
+
+    it('moves focus to the first/last option with Home/End', async () => {
+      const { fixture } = await setup();
+      const listbox = fixture.nativeElement.querySelector('.options-list') as HTMLElement;
+      const [red, , green] = optionButtons(fixture);
+
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(green);
+
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+      expect(fixture.nativeElement.ownerDocument.activeElement).toBe(red);
+    });
+  });
+
+  describe('with no matching selectedOption yet', () => {
+    @Component({
+      imports: [ItemSelector],
+      template: `<app-item-selector title="Color" [options]="options" />`,
+    })
+    class HostComponent {
+      options = ['red', 'blue', 'green'];
+    }
+
+    it('falls back the roving tabindex to the first option so the listbox stays keyboard-reachable', async () => {
+      await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(HostComponent);
+      await stabilize(fixture);
+
+      const [red, blue, green] = optionButtons(fixture);
+      expect(red.tabIndex).toBe(0);
+      expect(blue.tabIndex).toBe(-1);
+      expect(green.tabIndex).toBe(-1);
+      expect(red.classList.contains('is-selected')).toBe(false);
+    });
   });
 
   describe('with appItemTemplate content projection', () => {
@@ -135,7 +204,13 @@ describe('ItemSelector', () => {
           <button
             type="button"
             class="custom-container"
-            *appItemContainer="let font; let isChosen = isSelected; let action = onSelect"
+            *appItemContainer="
+              let font;
+              let isChosen = isSelected;
+              let action = onSelect;
+              let idx = tabIndex
+            "
+            [tabIndex]="idx"
             [class.chosen]="isChosen"
             (click)="action()"
           >
@@ -187,6 +262,16 @@ describe('ItemSelector', () => {
 
       expect(host.selected()).toBe('Georgia');
       expect(georgia.classList.contains('chosen')).toBe(true);
+    });
+
+    it('passes a roving tabIndex through the template context', async () => {
+      const { fixture } = await setup();
+      const [arial, georgia] = Array.from(
+        fixture.nativeElement.querySelectorAll('button.custom-container')
+      ) as HTMLButtonElement[];
+
+      expect(arial.tabIndex).toBe(0);
+      expect(georgia.tabIndex).toBe(-1);
     });
   });
 });

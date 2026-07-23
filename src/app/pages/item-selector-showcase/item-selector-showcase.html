@@ -19,7 +19,14 @@
     <button
       class="fonts-container"
       type="button"
-      *appItemContainer="let font; let selected = isSelected; let action = onSelect"
+      role="option"
+      *appItemContainer="
+        let font;
+        let selected = isSelected;
+        let action = onSelect;
+        let idx = tabIndex
+      "
+      [tabIndex]="idx"
       [class.chosen]="selected"
       [attr.aria-selected]="selected"
       (click)="action()"
