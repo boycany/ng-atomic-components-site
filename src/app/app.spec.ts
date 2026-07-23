@@ -34,8 +34,8 @@ describe('App', () => {
       (el) => el.textContent?.trim() === '|'
     );
 
-    expect(headerLinks.length).toBe(10);
-    expect(separators.length).toBe(9);
+    expect(headerLinks.length).toBe(11);
+    expect(separators.length).toBe(10);
     expect(nativeElement.textContent).toContain('Home');
     expect(nativeElement.textContent).toContain('Buttons');
     expect(nativeElement.textContent).toContain('Breadcrumbs');
@@ -46,6 +46,7 @@ describe('App', () => {
     expect(nativeElement.textContent).toContain('Expander');
     expect(nativeElement.textContent).toContain('Pagination');
     expect(nativeElement.textContent).toContain('Tabs');
+    expect(nativeElement.textContent).toContain('Item Selector');
   });
 
   it('renders footer message and GitHub repository link', async () => {

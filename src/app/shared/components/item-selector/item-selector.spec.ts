@@ -1,22 +1,192 @@
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemSelector } from './item-selector';
+import { ItemTemplateDirective } from './item-template.directive';
+import { ItemContainerDirective } from './item-container.directive';
+
+const optionButtons = (fixture: ComponentFixture<unknown>, selector = 'button.option-item') =>
+  Array.from(fixture.nativeElement.querySelectorAll(selector)) as HTMLButtonElement[];
+
+const stabilize = async (fixture: ComponentFixture<unknown>) => {
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+};
 
 describe('ItemSelector', () => {
-  let component: ItemSelector;
-  let fixture: ComponentFixture<ItemSelector>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  describe('default rendering (no projected content)', () => {
+    @Component({
       imports: [ItemSelector],
-    }).compileComponents();
+      template: `
+        <app-item-selector title="Color" [options]="options" [(selectedOption)]="selected" />
+      `,
+    })
+    class HostComponent {
+      options = ['red', 'blue', 'green'];
+      selected = signal('red');
+    }
 
-    fixture = TestBed.createComponent(ItemSelector);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    const setup = async () => {
+      await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(HostComponent);
+      await stabilize(fixture);
+      return { fixture, host: fixture.componentInstance };
+    };
+
+    it('renders the title', async () => {
+      const { fixture } = await setup();
+      expect(fixture.nativeElement.querySelector('span')?.textContent?.trim()).toBe('Color');
+    });
+
+    it('renders a listbox with an option per item, in order', async () => {
+      const { fixture } = await setup();
+      const listbox = fixture.nativeElement.querySelector('.options-list') as HTMLElement;
+
+      expect(listbox.getAttribute('role')).toBe('listbox');
+      expect(listbox.getAttribute('aria-label')).toBe('Color');
+
+      const buttons = optionButtons(fixture);
+      expect(buttons.map((b) => b.textContent?.trim())).toEqual(['red', 'blue', 'green']);
+      buttons.forEach((b) => {
+        expect(b.getAttribute('role')).toBe('option');
+        expect(b.getAttribute('type')).toBe('button');
+      });
+    });
+
+    it('marks only the currently selected option via class and aria-selected', async () => {
+      const { fixture } = await setup();
+      const [red, blue, green] = optionButtons(fixture);
+
+      expect(red.classList.contains('is-selected')).toBe(true);
+      expect(red.getAttribute('aria-selected')).toBe('true');
+      expect(blue.getAttribute('aria-selected')).toBe('false');
+      expect(green.getAttribute('aria-selected')).toBe('false');
+    });
+
+    it('updates the two-way selectedOption model and the rendered selection when an option is clicked', async () => {
+      const { fixture, host } = await setup();
+      const [red, blue] = optionButtons(fixture);
+
+      blue.click();
+      await stabilize(fixture);
+
+      expect(host.selected()).toBe('blue');
+      expect(blue.classList.contains('is-selected')).toBe(true);
+      expect(blue.getAttribute('aria-selected')).toBe('true');
+      expect(red.classList.contains('is-selected')).toBe(false);
+      expect(red.getAttribute('aria-selected')).toBe('false');
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('with appItemTemplate content projection', () => {
+    @Component({
+      imports: [ItemSelector, ItemTemplateDirective],
+      template: `
+        <app-item-selector title="Color" [options]="options" [(selectedOption)]="selected">
+          <span *appItemTemplate="let color" class="custom-item" [attr.data-color]="color">{{
+            color.toUpperCase()
+          }}</span>
+        </app-item-selector>
+      `,
+    })
+    class HostComponent {
+      options = ['red', 'blue'];
+      selected = signal('red');
+    }
+
+    const setup = async () => {
+      await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(HostComponent);
+      await stabilize(fixture);
+      return { fixture, host: fixture.componentInstance };
+    };
+
+    it('renders the projected template inside each option button instead of the raw option text', async () => {
+      const { fixture } = await setup();
+      const buttons = optionButtons(fixture);
+      const customItems = fixture.nativeElement.querySelectorAll(
+        'button.option-item .custom-item'
+      ) as NodeListOf<HTMLElement>;
+
+      expect(buttons.length).toBe(2);
+      expect(customItems.length).toBe(2);
+      expect(customItems[0].textContent?.trim()).toBe('RED');
+      expect(customItems[0].getAttribute('data-color')).toBe('red');
+      expect(customItems[1].textContent?.trim()).toBe('BLUE');
+    });
+
+    it('still selects an option by clicking its button', async () => {
+      const { fixture, host } = await setup();
+      const [, blueButton] = optionButtons(fixture);
+
+      blueButton.click();
+      await stabilize(fixture);
+
+      expect(host.selected()).toBe('blue');
+    });
+  });
+
+  describe('with appItemContainer content projection', () => {
+    @Component({
+      imports: [ItemSelector, ItemContainerDirective],
+      template: `
+        <app-item-selector title="Font" [options]="options" [(selectedOption)]="selected">
+          <button
+            type="button"
+            class="custom-container"
+            *appItemContainer="let font; let isChosen = isSelected; let action = onSelect"
+            [class.chosen]="isChosen"
+            (click)="action()"
+          >
+            {{ font }}
+          </button>
+        </app-item-selector>
+      `,
+    })
+    class HostComponent {
+      options = ['Arial', 'Georgia'];
+      selected = signal('Arial');
+    }
+
+    const setup = async () => {
+      await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(HostComponent);
+      await stabilize(fixture);
+      return { fixture, host: fixture.componentInstance };
+    };
+
+    it('renders the custom container instead of the default option button', async () => {
+      const { fixture } = await setup();
+      const customButtons = Array.from(
+        fixture.nativeElement.querySelectorAll('button.custom-container')
+      ) as HTMLButtonElement[];
+
+      expect(optionButtons(fixture).length).toBe(0);
+      expect(customButtons.map((b) => b.textContent?.trim())).toEqual(['Arial', 'Georgia']);
+    });
+
+    it('passes isSelected through the template context for each item', async () => {
+      const { fixture } = await setup();
+      const [arial, georgia] = Array.from(
+        fixture.nativeElement.querySelectorAll('button.custom-container')
+      ) as HTMLButtonElement[];
+
+      expect(arial.classList.contains('chosen')).toBe(true);
+      expect(georgia.classList.contains('chosen')).toBe(false);
+    });
+
+    it('invokes the onSelect callback from the template context and updates the model', async () => {
+      const { fixture, host } = await setup();
+      const [, georgia] = Array.from(
+        fixture.nativeElement.querySelectorAll('button.custom-container')
+      ) as HTMLButtonElement[];
+
+      georgia.click();
+      await stabilize(fixture);
+
+      expect(host.selected()).toBe('Georgia');
+      expect(georgia.classList.contains('chosen')).toBe(true);
+    });
   });
 });
