@@ -1,0 +1,31 @@
+<span
+  cdkOverlayOrigin
+  #origin="cdkOverlayOrigin"
+  class="atomic-popover-cdk__reference"
+  role="button"
+  tabindex="0"
+  [attr.aria-expanded]="modelValue()"
+  (click)="onClick()"
+  (keydown)="onKeydown($event)"
+  (mouseenter)="onMouseenter()"
+  (mouseleave)="onMouseleave()"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+  (touchstart)="onTouchstart()"
+  (touchend)="onTouchend()"
+>
+  <ng-content select="[trigger]" />
+</span>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="modelValue()"
+  [cdkConnectedOverlayPositions]="positions()"
+  (overlayOutsideClick)="onOutsideClick()"
+  (detach)="onOutsideClick()"
+>
+  <div class="atomic-popover-cdk">
+    <ng-content />
+  </div>
+</ng-template>
