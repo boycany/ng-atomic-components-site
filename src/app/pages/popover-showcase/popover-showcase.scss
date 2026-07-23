@@ -1,0 +1,35 @@
+.placement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 24px 16px;
+}
+
+.popover-content {
+  padding: 8px 12px;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 4px;
+  background: var(--mat-sys-surface);
+  white-space: nowrap;
+}
+
+// position: relative is what actually makes overflow: hidden clip the hand-rolled
+// popover — without it, the popover's position: absolute skips this box entirely
+// and anchors to the document root instead, escaping the clip altogether.
+.clip-box {
+  position: relative;
+  width: 200px;
+  height: 80px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px dashed var(--mat-sys-outline);
+}
+
+// Cancels the parent .section's 16px padding so the reference sits flush
+// against the real viewport edge — otherwise there'd be room to open "left" into.
+.edge-box {
+  width: fit-content;
+
+  & + .edge-box {
+    margin-top: 16px;
+  }
+}

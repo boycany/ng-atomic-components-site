@@ -107,4 +107,13 @@ export const routes: Routes = [
         (m) => m.ItemSelectorShowcase
       ),
   },
+  {
+    path: 'popover',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'popover',
+    },
+    loadComponent: () =>
+      import('./pages/popover-showcase/popover-showcase').then((m) => m.PopoverShowcase),
+  },
 ];
