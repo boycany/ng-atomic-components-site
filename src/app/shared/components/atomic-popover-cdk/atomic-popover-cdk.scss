@@ -1,0 +1,14 @@
+$name: '.atomic-popover-cdk';
+
+#{$name}__reference {
+  display: inline-flex;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// z-index/teleport 不用自己管:CDK 把內容 portal 到 body 下的
+// .cdk-overlay-container,層級與定位由 CDK 全域樣式負責。

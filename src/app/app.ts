@@ -53,5 +53,9 @@ export class App {
       to: ['item-selector'],
       text: 'Item Selector',
     },
+    {
+      to: ['popover'],
+      text: 'Popover',
+    },
   ];
 }

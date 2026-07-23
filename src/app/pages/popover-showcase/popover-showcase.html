@@ -1,0 +1,94 @@
+<div class="section">
+  <h2>AtomicPopover — Hand-rolled vs CDK</h2>
+  <p>
+    Both share the same <code>trigger</code> / <code>placement</code> / <code>offset</code> API —
+    only the positioning and teleport implementation differ.
+  </p>
+</div>
+
+<div class="section">
+  <h3>Hand-rolled (computeCoords) — 12 placements</h3>
+  <div class="placement-grid">
+    @for (placement of placements; track placement) {
+      <app-atomic-popover [placement]="placement" trigger="click">
+        <button trigger type="button">{{ placement }}</button>
+        <div class="popover-content">{{ placement }}</div>
+      </app-atomic-popover>
+    }
+  </div>
+</div>
+
+<div class="section">
+  <h3>CDK (@angular/cdk/overlay) — 12 placements</h3>
+  <div class="placement-grid">
+    @for (placement of placements; track placement) {
+      <app-atomic-popover-cdk [placement]="placement" trigger="click">
+        <button trigger type="button">{{ placement }}</button>
+        <div class="popover-content">{{ placement }}</div>
+      </app-atomic-popover-cdk>
+    }
+  </div>
+</div>
+
+<div class="section">
+  <h3>trigger: hover</h3>
+  <div class="row">
+    <app-atomic-popover placement="bottom" trigger="hover">
+      <button trigger type="button">Hand-rolled</button>
+      <div class="popover-content">Opens on hover, closes on leave</div>
+    </app-atomic-popover>
+    <app-atomic-popover-cdk placement="bottom" trigger="hover">
+      <button trigger type="button">CDK</button>
+      <div class="popover-content">Opens on hover, closes on leave</div>
+    </app-atomic-popover-cdk>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Overflow clipping: the CDK teleport advantage</h3>
+  <p>
+    <code>.clip-box</code> below is <code>position: relative; overflow: hidden</code> — a common
+    real-world card/dropdown container. That makes it the hand-rolled popover's containing block,
+    but <code>floatingStyles</code> still computes coordinates as if the containing block were the
+    document root — so the popover renders at the wrong spot entirely and gets clipped away. The CDK
+    version is unaffected: its content is teleported via Portal into the overlay container under
+    <code>body</code>, so it never depends on an ancestor's positioning context.
+  </p>
+  <div class="row">
+    <div class="clip-box">
+      <app-atomic-popover placement="bottom" trigger="click">
+        <button trigger type="button">Hand-rolled (gets clipped)</button>
+        <div class="popover-content">I should be clipped</div>
+      </app-atomic-popover>
+    </div>
+    <div class="clip-box">
+      <app-atomic-popover-cdk placement="bottom" trigger="click">
+        <button trigger type="button">CDK (not clipped)</button>
+        <div class="popover-content">I won't be clipped</div>
+      </app-atomic-popover-cdk>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Auto-flip at the viewport edge (CDK only)</h3>
+  <p>
+    Each reference below sits flush against the left edge of the viewport with
+    <code>placement="left"</code> — there's no room to open on the left. The hand-rolled version has
+    no fallback, so it renders off-screen. The CDK version's
+    <code>toConnectedPositions()</code> always appends the opposite side as a fallback position, so
+    <code>FlexibleConnectedPositionStrategy</code> automatically flips it to the right.
+  </p>
+  <div class="edge-box">
+    <app-atomic-popover placement="left" trigger="click">
+      <button trigger type="button">Hand-rolled (placement: left)</button>
+      <div class="popover-content">No fallback — I open off-screen</div>
+    </app-atomic-popover>
+  </div>
+  <div class="edge-box">
+    <app-atomic-popover-cdk placement="left" trigger="click">
+      <button trigger type="button">CDK (placement: left)</button>
+      <div class="popover-content">Flipped to the right — no room on the left</div>
+    </app-atomic-popover-cdk>
+  </div>
+</div>

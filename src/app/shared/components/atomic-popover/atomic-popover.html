@@ -1,0 +1,23 @@
+<span
+  #reference
+  class="atomic-popover__reference"
+  role="button"
+  tabindex="0"
+  [attr.aria-expanded]="modelValue()"
+  (click)="onClick()"
+  (keydown)="onKeydown($event)"
+  (mouseenter)="onMouseenter()"
+  (mouseleave)="onMouseleave()"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+  (touchstart)="onTouchstart()"
+  (touchend)="onTouchend()"
+>
+  <ng-content select="[trigger]" />
+</span>
+
+@if (modelValue()) {
+  <div #popover class="atomic-popover" [style]="floatingStyles()">
+    <ng-content />
+  </div>
+}
