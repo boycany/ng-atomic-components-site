@@ -7,7 +7,11 @@
       "Bash(npx ng *)",
       "Bash(npx prettier *)",
       "Bash(npx eslint *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(xargs -I{} cat {})",
+      "Bash(xargs -I{} sh -c 'echo \"--- {} ---\"; cat {}')",
+      "Bash(awk '/% Coverage report/,/^$/' /private/tmp/claude-501/-Users-yh-chien-Documents-Project-Angular-ng-atomic-components-site/dcfcf655-1f73-40b7-b44f-e8abee997af6/scratchpad/coverage.txt)",
+      "Bash(echo \"EXIT_CODE=$?\")"
     ]
   }
 }

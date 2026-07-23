@@ -1,4 +1,5 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+.claude/settings.local.json
 
 # Compiled output
 /dist
@@ -44,3 +45,4 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+.claude/settings.local.json
