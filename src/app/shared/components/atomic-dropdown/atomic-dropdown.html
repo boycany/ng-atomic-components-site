@@ -1,0 +1,16 @@
+<app-atomic-popover
+  [(modelValue)]="active"
+  [offset]="offset()"
+  [placement]="placement()"
+  [trigger]="trigger()"
+>
+  <ul class="atomic-dropdown">
+    @for (item of itemsCompose(); track item.value) {
+      <li class="atomic-dropdown__menuitem">
+        <button type="button" (click)="(item.onClick)">
+          {{ item.label }}
+        </button>
+      </li>
+    }
+  </ul>
+</app-atomic-popover>
