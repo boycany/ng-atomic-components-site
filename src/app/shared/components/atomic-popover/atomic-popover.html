@@ -2,8 +2,10 @@
   #reference
   class="atomic-popover__reference"
   role="button"
-  tabindex="0"
+  [attr.tabindex]="disabled() ? -1 : 0"
   [attr.aria-expanded]="modelValue()"
+  [attr.aria-haspopup]="ariaHasPopup()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
   (click)="onClick()"
   (keydown)="onKeydown($event)"
   (mouseenter)="onMouseenter()"

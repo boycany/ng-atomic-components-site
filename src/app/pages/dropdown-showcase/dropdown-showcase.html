@@ -1,9 +1,14 @@
 <div class="section">
   <h2>AtomicDropdown</h2>
   <p>
-    A menu list built on top of <code>AtomicPopover</code> — same <code>trigger</code> /
-    <code>placement</code> / <code>offset</code> API, plus an <code>items</code> input that renders
-    each entry as a <code>&lt;button&gt;</code>.
+    A menu built on <code>AtomicPopover</code> — same <code>trigger</code> /
+    <code>placement</code> / <code>offset</code> / <code>disabled</code> API, plus an
+    <code>items</code> input and an optional <code>appMenuitemTemplate</code> slot.
+  </p>
+  <p>
+    Keyboard: the menu takes focus when it opens. <kbd>↓</kbd> <kbd>↑</kbd> move between items
+    (skipping disabled ones), <kbd>Home</kbd> / <kbd>End</kbd> jump to the ends, <kbd>Enter</kbd> /
+    <kbd>Space</kbd> activate, <kbd>Tab</kbd> closes.
   </p>
   <p>
     Last action: <code>{{ lastAction() }}</code>
@@ -19,20 +24,55 @@
 
 <div class="section">
   <h3>Disabled items</h3>
-  <p>Disabled entries stay rendered but their <code>onClick</code> is a no-op.</p>
+  <p>Disabled entries are marked <code>aria-disabled</code> and skipped by the arrow keys.</p>
   <app-atomic-dropdown [items]="disabledItems">
     <button trigger type="button">Actions</button>
   </app-atomic-dropdown>
 </div>
 
 <div class="section">
-  <h3>Manual close (2-arg <code>onClick</code>)</h3>
+  <h3>Items without <code>onClick</code></h3>
+  <p>They still close the menu, so a click never feels like it got stuck.</p>
+  <app-atomic-dropdown [items]="plainItems">
+    <button trigger type="button">Plain items</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>Who closes the menu — decided by <code>onClick</code>'s arity</h3>
   <p>
     A 1-arg <code>onClick</code> closes the menu automatically. A 2-arg one receives
     <code>close</code> and decides for itself — the first item never closes, the second one does.
   </p>
   <app-atomic-dropdown [items]="manualCloseItems">
-    <button trigger type="button">Counter</button>
+    <button trigger type="button">Arity</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>Component-level <code>disabled</code></h3>
+  <p>The whole menu refuses to open, and the trigger reports <code>aria-disabled</code>.</p>
+  <app-atomic-dropdown [items]="basicItems" [disabled]="true">
+    <button trigger type="button">Disabled dropdown</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3><code>appMenuitemTemplate</code> slot</h3>
+  <p>
+    Custom markup per item. The template receives <code>label</code>, <code>value</code>,
+    <code>disabled</code> and the item's own <code>context</code>.
+  </p>
+  <app-atomic-dropdown [items]="inboxItems">
+    <button trigger type="button">Mailboxes</button>
+    <span
+      *appMenuitemTemplate="let label; disabled as isDisabled; context as ctx"
+      class="menuitem-row"
+      [class.is-disabled]="isDisabled"
+    >
+      <span>{{ label }}</span>
+      <span class="badge">{{ ctx.badge }}</span>
+    </span>
   </app-atomic-dropdown>
 </div>
 
@@ -56,10 +96,7 @@
 
 <div class="section">
   <h3>Long list</h3>
-  <p>
-    20 items. <code>.atomic-dropdown</code> sets <code>overflow-y: auto</code> but no
-    <code>max-height</code>, so it grows instead of scrolling.
-  </p>
+  <p>20 items — the menu caps at <code>max-height: 180px</code> and scrolls.</p>
   <app-atomic-dropdown [items]="longItems">
     <button trigger type="button">20 items</button>
   </app-atomic-dropdown>

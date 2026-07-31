@@ -3,3 +3,23 @@
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 24px 16px;
 }
+
+.menuitem-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 160px;
+
+  &.is-disabled {
+    opacity: 0.5;
+  }
+
+  .badge {
+    padding: 0 8px;
+    border-radius: 10px;
+    background: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    font-size: 12px;
+  }
+}

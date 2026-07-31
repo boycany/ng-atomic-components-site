@@ -3,6 +3,8 @@
   [offset]="offset()"
   [placement]="placement()"
   [trigger]="trigger()"
+  [disabled]="disabled()"
+  ariaHasPopup="true"
 >
   <ng-content select="[trigger]" ngProjectAs="[trigger]" />
   <ul #menu role="menu" class="atomic-dropdown" (keydown)="onMenuKeydown($event)" tabindex="-1">
@@ -10,11 +12,25 @@
       <li
         role="menuitem"
         [attr.tabindex]="item.tabIndex"
+        [attr.aria-disabled]="item.disabled ? 'true' : null"
         class="atomic-dropdown__menuitem"
         (click)="item.onClick()"
         (keydown)="item.onKeydown($event)"
       >
-        {{ item.label }}
+        @if (hasMenuitemTemplate()) {
+          <ng-container
+            [ngTemplateOutlet]="menuitemTemplate()"
+            [ngTemplateOutletContext]="{
+              $implicit: item.label,
+              label: item.label,
+              value: item.value,
+              disabled: item.disabled,
+              context: item.context,
+            }"
+          />
+        } @else {
+          {{ item.label }}
+        }
       </li>
     }
   </ul>
