@@ -4,12 +4,17 @@
   [placement]="placement()"
   [trigger]="trigger()"
 >
-  <ul class="atomic-dropdown">
+  <ng-content select="[trigger]" ngProjectAs="[trigger]" />
+  <ul #menu role="menu" class="atomic-dropdown" (keydown)="onMenuKeydown($event)" tabindex="-1">
     @for (item of itemsCompose(); track item.value) {
-      <li class="atomic-dropdown__menuitem">
-        <button type="button" (click)="(item.onClick)">
-          {{ item.label }}
-        </button>
+      <li
+        role="menuitem"
+        [attr.tabindex]="item.tabIndex"
+        class="atomic-dropdown__menuitem"
+        (click)="item.onClick()"
+        (keydown)="item.onKeydown($event)"
+      >
+        {{ item.label }}
       </li>
     }
   </ul>

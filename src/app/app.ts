@@ -57,5 +57,9 @@ export class App {
       to: ['popover'],
       text: 'Popover',
     },
+    {
+      to: ['dropdown'],
+      text: 'Dropdown',
+    },
   ];
 }

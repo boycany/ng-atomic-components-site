@@ -9,7 +9,7 @@ import {
 import { ItemTemplateDirective } from './item-template.directive';
 import { NgTemplateOutlet } from '@angular/common';
 import { ItemContainerDirective } from './item-container.directive';
-import { moveFocus, nextItem, previousItem } from './item-selector.utils';
+import { moveFocus, nextItem, previousItem } from '../../helpers/move-focus/move-focus.helper';
 
 @Component({
   selector: 'app-item-selector',

@@ -1,0 +1,66 @@
+<div class="section">
+  <h2>AtomicDropdown</h2>
+  <p>
+    A menu list built on top of <code>AtomicPopover</code> — same <code>trigger</code> /
+    <code>placement</code> / <code>offset</code> API, plus an <code>items</code> input that renders
+    each entry as a <code>&lt;button&gt;</code>.
+  </p>
+  <p>
+    Last action: <code>{{ lastAction() }}</code>
+  </p>
+</div>
+
+<div class="section">
+  <h3>Basic</h3>
+  <app-atomic-dropdown [items]="basicItems">
+    <button trigger type="button">Account</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>Disabled items</h3>
+  <p>Disabled entries stay rendered but their <code>onClick</code> is a no-op.</p>
+  <app-atomic-dropdown [items]="disabledItems">
+    <button trigger type="button">Actions</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>Manual close (2-arg <code>onClick</code>)</h3>
+  <p>
+    A 1-arg <code>onClick</code> closes the menu automatically. A 2-arg one receives
+    <code>close</code> and decides for itself — the first item never closes, the second one does.
+  </p>
+  <app-atomic-dropdown [items]="manualCloseItems">
+    <button trigger type="button">Counter</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>trigger: hover</h3>
+  <app-atomic-dropdown [items]="basicItems" trigger="hover">
+    <button trigger type="button">Hover me</button>
+  </app-atomic-dropdown>
+</div>
+
+<div class="section">
+  <h3>Placements</h3>
+  <div class="placement-grid">
+    @for (placement of placements; track placement) {
+      <app-atomic-dropdown [items]="basicItems" [placement]="placement">
+        <button trigger type="button">{{ placement }}</button>
+      </app-atomic-dropdown>
+    }
+  </div>
+</div>
+
+<div class="section">
+  <h3>Long list</h3>
+  <p>
+    20 items. <code>.atomic-dropdown</code> sets <code>overflow-y: auto</code> but no
+    <code>max-height</code>, so it grows instead of scrolling.
+  </p>
+  <app-atomic-dropdown [items]="longItems">
+    <button trigger type="button">20 items</button>
+  </app-atomic-dropdown>
+</div>
