@@ -9,6 +9,7 @@ import {
   model,
 } from '@angular/core';
 import { firstValueFrom, isObservable, Observable, of } from 'rxjs';
+import { moveFocus, nextItem, previousItem } from '../../helpers/move-focus/move-focus.helper';
 
 export interface AtomicTabsContext {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,44 +128,4 @@ export interface AtomicTabsChange {
   from: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   to: any;
-}
-
-export function nextItem(container: HTMLElement, item: HTMLElement | null): HTMLElement | null {
-  if (item && item.nextElementSibling) {
-    return item.nextElementSibling as HTMLElement;
-  }
-  return container.firstElementChild as HTMLElement | null;
-}
-
-export function previousItem(container: HTMLElement, item: HTMLElement | null): HTMLElement | null {
-  if (item && item.previousElementSibling) {
-    return item.previousElementSibling as HTMLElement;
-  }
-  return container.lastElementChild as HTMLElement | null;
-}
-
-type TraversalFunction = (
-  container: HTMLElement,
-  currentFocus: HTMLElement | null
-) => HTMLElement | null;
-
-export function moveFocus(
-  container: HTMLElement,
-  currentFocus: HTMLElement | null,
-  traversalFn: TraversalFunction
-) {
-  let nextFocus = traversalFn(container, currentFocus);
-  while (nextFocus) {
-    const nextFocusDisabled =
-      (nextFocus as HTMLButtonElement).disabled ||
-      nextFocus.getAttribute('aria-disabled') === 'true';
-
-    if (!nextFocus.hasAttribute('tabindex') || nextFocusDisabled) {
-      nextFocus = traversalFn(container, nextFocus);
-    } else {
-      nextFocus.focus();
-      return true;
-    }
-  }
-  return false;
 }

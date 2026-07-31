@@ -116,4 +116,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/popover-showcase/popover-showcase').then((m) => m.PopoverShowcase),
   },
+  {
+    path: 'dropdown',
+    data: {
+      preloadOnHover: true,
+      preloadKey: 'dropdown',
+    },
+    loadComponent: () =>
+      import('./pages/dropdown-showcase/dropdown-showcase').then((m) => m.DropdownShowcase),
+  },
 ];

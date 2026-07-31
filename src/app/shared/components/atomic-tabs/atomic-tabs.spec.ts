@@ -3,15 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { AtomicTabPanel } from './atomic-tab-panel';
-import {
-  ATOMIC_TABS,
-  AtomicTabs,
-  AtomicTabsChange,
-  AtomicTabsItem,
-  moveFocus,
-  nextItem,
-  previousItem,
-} from './atomic-tabs';
+import { ATOMIC_TABS, AtomicTabs, AtomicTabsChange, AtomicTabsItem } from './atomic-tabs';
+import { moveFocus, nextItem, previousItem } from '../../helpers/move-focus/move-focus.helper';
 
 const DEFAULT_ITEMS: AtomicTabsItem[] = [
   { value: 'tab1', label: 'Tab 1' },

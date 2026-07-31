@@ -39,6 +39,10 @@ export class AtomicPopover {
   trigger = input<Trigger | Trigger[]>('click');
   placement = input<Side | Placement>('bottom');
   offset = input<number | Partial<OffsetObject>>(8);
+  disabled = input<boolean>(false);
+
+  // reference 要宣告自己會開出哪種浮層(選單、清單…),交給使用端決定。
+  ariaHasPopup = input<string>();
 
   // DOM 參照(等同 Vue 的 useTemplateRef)
   reference = viewChild.required<ElementRef<HTMLElement>>('reference');
@@ -77,6 +81,14 @@ export class AtomicPopover {
     // effect 會自動追蹤讀到的 viewChild signal,popover() 由 undefined→有值時重跑。
     effect(() => this.updateRects());
 
+    // disabled 中途變 true 時,已開啟的浮層要收起來,否則所有 trigger handler
+    // 都被擋掉,使用者沒有任何方法關閉它。
+    effect(() => {
+      if (this.disabled()) {
+        this.modelValue.set(false);
+      }
+    });
+
     // 視窗縮放時重新量測(等同 onMounted 掛 resize、onUnmounted 移除,
     // takeUntilDestroyed 讓「掛載」與「清理」綁在一起,不會忘記移除)。
     fromEvent(window, 'resize')
@@ -112,6 +124,9 @@ export class AtomicPopover {
   }
 
   protected onClick(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('click')) {
       return;
     }
@@ -119,6 +134,9 @@ export class AtomicPopover {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('click')) {
       return;
     }
@@ -134,6 +152,9 @@ export class AtomicPopover {
   }
 
   protected onMouseenter(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('hover')) {
       return;
     }
@@ -141,6 +162,9 @@ export class AtomicPopover {
   }
 
   protected onMouseleave(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('hover')) {
       return;
     }
@@ -148,6 +172,9 @@ export class AtomicPopover {
   }
 
   protected onFocus(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('focus')) {
       return;
     }
@@ -155,6 +182,9 @@ export class AtomicPopover {
   }
 
   protected onBlur(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('focus')) {
       return;
     }
@@ -162,6 +192,9 @@ export class AtomicPopover {
   }
 
   protected onTouchstart(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('touch')) {
       return;
     }
@@ -169,6 +202,9 @@ export class AtomicPopover {
   }
 
   protected onTouchend(): void {
+    if (this.disabled()) {
+      return;
+    }
     if (!toArray(this.trigger()).includes('touch')) {
       return;
     }

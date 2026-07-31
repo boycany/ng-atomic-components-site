@@ -34,8 +34,8 @@ describe('App', () => {
       (el) => el.textContent?.trim() === '|'
     );
 
-    expect(headerLinks.length).toBe(12);
-    expect(separators.length).toBe(11);
+    expect(headerLinks.length).toBe(13);
+    expect(separators.length).toBe(12);
     expect(nativeElement.textContent).toContain('Home');
     expect(nativeElement.textContent).toContain('Buttons');
     expect(nativeElement.textContent).toContain('Breadcrumbs');

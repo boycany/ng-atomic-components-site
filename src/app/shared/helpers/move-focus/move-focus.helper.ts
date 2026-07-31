@@ -21,14 +21,26 @@ export function moveFocus(
   container: HTMLElement,
   currentFocus: HTMLElement | null,
   traversalFn: TraversalFunction
-): boolean {
+) {
+  // nextItem/previousItem 走到盡頭會繞回頭,且不保證停在 container 內,
+  // 所以沒有任何可聚焦元素時走訪會無限循環。記錄拜訪過的元素當作終止條件:
+  // 凡是原本就會正常結束的走訪都不可能重複拜訪,因此行為不變。
+  const visited = new Set<HTMLElement>();
   let nextFocus = traversalFn(container, currentFocus);
-  while (nextFocus) {
-    if (nextFocus.hasAttribute('tabindex')) {
+
+  while (nextFocus && !visited.has(nextFocus)) {
+    visited.add(nextFocus);
+
+    const nextFocusDisabled =
+      (nextFocus as HTMLButtonElement).disabled ||
+      nextFocus.getAttribute('aria-disabled') === 'true';
+
+    if (!nextFocus.hasAttribute('tabindex') || nextFocusDisabled) {
+      nextFocus = traversalFn(container, nextFocus);
+    } else {
       nextFocus.focus();
       return true;
     }
-    nextFocus = traversalFn(container, nextFocus);
   }
   return false;
 }
